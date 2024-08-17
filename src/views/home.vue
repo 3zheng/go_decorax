@@ -15,7 +15,7 @@
                         <el-menu-item index="1">
                             <i class="el-icon-menu"></i>
                             <span slot="title">
-                                <router-link :to="{name:'Inventory',params:{pr1:114514,pr2:'zhendema'}}">各仓库库存详情</router-link>
+                                <router-link :to="{name:'Inventory',params:{pr1:114514,pr2:'zhendema'}}">库存详情</router-link>
                             </span>
                         </el-menu-item>
                         <el-menu-item index="2">
@@ -27,13 +27,13 @@
                         <el-menu-item index="3">
                             <i class="el-icon-menu"></i>
                             <span slot="title">
-                                <router-link :to="{name:'Debt'}">欠款</router-link>
+                                <router-link :to="{name:'Debt'}">欠款数据</router-link>
                             </span>
                         </el-menu-item>
                         <el-menu-item index="4">
                             <i class="el-icon-menu"></i>
                             <span slot="title">
-                                <router-link :to="{name:'Salesman'}">销售员</router-link>
+                                <router-link :to="{name:'SalesRecord'}">销售员每日销售记录</router-link>
                             </span>
                         </el-menu-item>
                         <el-submenu index="9">

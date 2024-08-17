@@ -19,13 +19,16 @@
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column type="index" label="序号" width="60"></el-table-column>
+            <el-table-column label="序号" width="60">
+                <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
+            </el-table-column>
             <el-table-column prop="ID" label="ID" width="80"></el-table-column>
             <el-table-column prop="Name" label="类名" width="80"></el-table-column>
             <el-table-column prop="ProductSuperClass" label="大类"> </el-table-column>
             <el-table-column prop="ProductUnitName" label="单位"> </el-table-column>
             <el-table-column prop="ResidualNum" label="库存量"> </el-table-column>
             <el-table-column prop="InventoryCost" label="库存价值"> </el-table-column>
+            <el-table-column prop="WarehouseName" label="仓库名"> </el-table-column>
             <el-table-column prop="SalesQuantity30days" label="近30天销量"> </el-table-column>
             <el-table-column prop="UnsalableScale" label="预计去化月数"> </el-table-column>
         </el-table>
@@ -60,7 +63,7 @@ export default {
             tableData: [],  //所有数据
             total: 0,   //数据个数
             showData:[],    //当前显示的数据
-            dataSize:5, //每页展示的数据个数
+            pageSize:5, //每页展示的数据个数
             currentPage:1,  //当前页
         };
     },
@@ -84,7 +87,6 @@ export default {
                 url: "http://localhost:24686/KC",
             })
                 .then((repos) => {
-                    alert(repos.data);
                     console.log(repos.data);
                     this.tableData = repos.data;
                     this.total = this.tableData.length;
@@ -96,7 +98,7 @@ export default {
         },
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
-            this.dataSize = val;
+            this.pageSize = val;
             this.changeShowPage()
         },
         handleCurrentChange(val) {
@@ -105,8 +107,8 @@ export default {
             this.changeShowPage()
         },
         changeShowPage(){
-            var start = (this.currentPage-1)*this.dataSize;
-            var end = (this.currentPage-1)*this.dataSize + this.dataSize;
+            var start = (this.currentPage-1)*this.pageSize;
+            var end = (this.currentPage-1)*this.pageSize + this.pageSize;
             var str = "start="+ start+ " end="+ end
             console.log(str);
             this.showData = this.tableData.slice(start, end);

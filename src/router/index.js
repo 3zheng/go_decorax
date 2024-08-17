@@ -4,7 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import home from '@/views/home.vue'
 import Inventory from '@/views/tables/Inventory.vue'
 import InventorySummary from '@/views/tables/InventorySummary.vue'
-import Salesman from '@/views/tables/Salesman.vue'
+import SalesRecord from '@/views/tables/SalesRecord.vue'
 import Debt from '@/views/tables/Debt.vue'
 
 Vue.use(VueRouter)
@@ -40,9 +40,9 @@ const routes = [
         props:true,
       },
       {
-        path:'/tables/Salesman',
-        name:'Salesman',
-        component:Salesman,
+        path:'/tables/SalesRecord',
+        name:'SalesRecord',
+        component:SalesRecord,
         props:true,
       },     
     ],
