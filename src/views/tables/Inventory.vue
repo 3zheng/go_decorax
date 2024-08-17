@@ -22,15 +22,11 @@
             <el-table-column label="序号" width="60">
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="ID" label="ID" width="80"></el-table-column>
-            <el-table-column prop="Name" label="类名" width="80"></el-table-column>
-            <el-table-column prop="ProductSuperClass" label="大类"> </el-table-column>
-            <el-table-column prop="ProductUnitName" label="单位"> </el-table-column>
-            <el-table-column prop="ResidualNum" label="库存量"> </el-table-column>
-            <el-table-column prop="InventoryCost" label="库存价值"> </el-table-column>
-            <el-table-column prop="WarehouseName" label="仓库名"> </el-table-column>
-            <el-table-column prop="SalesQuantity30days" label="近30天销量"> </el-table-column>
-            <el-table-column prop="UnsalableScale" label="预计去化月数"> </el-table-column>
+            <el-table-column prop="ID" label="ID" width="160"></el-table-column>
+            <el-table-column prop="Name" label="类名" ></el-table-column>
+            <el-table-column prop="ProductSuperClass" label="大类" width="150"> </el-table-column>
+            <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
+            <el-table-column prop="WarehouseName" label="仓库名" width="180"> </el-table-column>
         </el-table>
         <!--分页-->
         <el-form :inline="true">
@@ -62,6 +58,7 @@ export default {
             pr2:'',
             tableData: [],  //所有数据
             total: 0,   //数据个数
+            searchData:[],  //根据搜索条件获得的数据
             showData:[],    //当前显示的数据
             pageSize:5, //每页展示的数据个数
             currentPage:1,  //当前页
