@@ -19,7 +19,7 @@
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column type="index" label="行号" width="60"></el-table-column>
+            <el-table-column type="index" label="序号" width="60"></el-table-column>
             <el-table-column prop="ID" label="ID" width="80"></el-table-column>
             <el-table-column prop="Name" label="类名" width="80"></el-table-column>
             <el-table-column prop="ProductSuperClass" label="大类"> </el-table-column>

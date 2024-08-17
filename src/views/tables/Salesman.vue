@@ -19,7 +19,7 @@
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column type="index" label="行号" width="60"></el-table-column>
+            <el-table-column type="index" label="序号" width="60"></el-table-column>
             <el-table-column prop="Name" label="销售员姓名"> </el-table-column>
             <el-table-column prop="SalesDate" label="销售日期" width="80"></el-table-column>
             <el-table-column prop="SalesAmount" label="销售金额" width="80"></el-table-column>            

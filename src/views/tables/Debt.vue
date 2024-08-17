@@ -19,14 +19,14 @@
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column type="index" label="行号" width="60"></el-table-column>
-            <el-table-column prop="DebtorName" label="欠款人姓名" width="80"></el-table-column>
-            <el-table-column prop="DebtAmount" label="欠款金额" width="80"></el-table-column>
+            <el-table-column type="index" label="序号" width="60"></el-table-column>
+            <el-table-column prop="DebtorID" label="欠款人ID" width="70"> </el-table-column>
+            <el-table-column prop="DebtorName" label="欠款人姓名" width="120"></el-table-column>
+            <el-table-column prop="DebtAmount" label="欠款金额" ></el-table-column>
             <el-table-column prop="OrderFormDate" label="订单日期"> </el-table-column>
             <el-table-column prop="DebtDuration" label="欠款天数"> </el-table-column>
-            <el-table-column prop="Salesman" label="销售员"> </el-table-column>
-            <el-table-column prop="DebtorID" label="欠款人ID"> </el-table-column>
-            <el-table-column prop="SalesmanID" label="销售员ID"> </el-table-column>
+            <el-table-column prop="SalesmanID" label="销售员ID" width="70"> </el-table-column>
+            <el-table-column prop="Salesman" label="销售员" width="120"> </el-table-column>       
         </el-table>
         <!--分页-->
         <el-form :inline="true">
