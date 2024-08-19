@@ -9,7 +9,7 @@ export default {
         return {
             pr1:0,
             pr2:'',
-            tableData: [],  //所有数据
+            searchData: [],  //所有数据
             total: 0,   //数据个数
             showData:[],    //当前显示的数据
             pageSize:5, //每页展示的数据个数
@@ -38,8 +38,8 @@ export default {
                 .then((repos) => {
                     alert(repos.data);
                     console.log(repos.data);
-                    this.tableData = repos.data;
-                    this.total = this.tableData.length;
+                    this.searchData = repos.data;
+                    this.total = this.searchData.length;
                     this.changeShowPage()
                 })
                 .catch((error) => {
@@ -61,7 +61,7 @@ export default {
             var end = (this.currentPage-1)*this.pageSize + this.pageSize;
             var str = "start="+ start+ " end="+ end
             console.log(str);
-            this.showData = this.tableData.slice(start, end);
+            this.showData = this.searchData.slice(start, end);
         }
     },
 }

@@ -10,41 +10,61 @@
             </el-header>
             <el-container>
                 <el-aside width="200px">
-                    <el-menu default-active="1" class="el-menu-vertical-demo" @open="" @close=""
-                        background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-                        <el-menu-item index="1">
-                            <i class="el-icon-menu"></i>
-                            <span slot="title">
-                                <router-link :to="{name:'Inventory',params:{pr1:114514,pr2:'zhendema'}}">库存详情</router-link>
-                            </span>
-                        </el-menu-item>
-                        <el-menu-item index="2">
-                            <i class="el-icon-menu"></i>
-                            <span slot="title">
-                                <router-link :to="{name:'InventorySummary'}">库存概要</router-link>
-                            </span>
-                        </el-menu-item>
+                    <el-menu default-active="1" class="el-menu-vertical-demo" background-color="#545c64"
+                        text-color="#fff" active-text-color="#ffd04b">
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i class="el-icon-location"></i>
+                                <span>库存</span>
+                            </template>
+                            <template slot="title"></template>
+                            <el-menu-item index="1-1">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link :to="{ name: 'Inventory', params: { pr1: 114514, pr2: 'zhendema' } }">按ID仓库排序</router-link>
+                                </span>
+                            </el-menu-item>
+                            <el-menu-item index="1-2">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link :to="{ name: 'InventorySummary' }">库存概要</router-link>
+                                </span>
+                            </el-menu-item>
+                        </el-submenu>
                         <el-menu-item index="3">
                             <i class="el-icon-menu"></i>
                             <span slot="title">
-                                <router-link :to="{name:'Debt'}">欠款数据</router-link>
+                                <router-link :to="{ name: 'Debt' }">欠款数据</router-link>
                             </span>
                         </el-menu-item>
-                        <el-menu-item index="4">
-                            <i class="el-icon-menu"></i>
-                            <span slot="title">
-                                <router-link :to="{name:'SalesRecord'}">销售员每日销售记录</router-link>
-                            </span>
-                        </el-menu-item>
+                        <el-submenu index="4">
+                            <template slot="title">
+                                <i class="el-icon-location"></i>
+                                <span>销售</span>
+                            </template>
+                            <template slot="title"></template>
+                            <el-menu-item index="4-1">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link :to="{ name: 'SalesRecord' }">销售员每日销售记录</router-link>
+                                </span>
+                            </el-menu-item>
+                            <el-menu-item index="4-2">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link :to="{ name: 'InventorySummary' }">库存概要</router-link>
+                                </span>
+                            </el-menu-item>
+                        </el-submenu>
                         <el-submenu index="9">
                             <template slot="title">
                                 <i class="el-icon-location"></i>
                                 <span>重要客户</span>
                             </template>
-                                <template slot="title"></template>
-                                <el-menu-item index="1-1">重要客户</el-menu-item>
-                                <el-menu-item index="1-2">新增的重要客户</el-menu-item>
-                                <el-menu-item index="1-3">丢失的重要客户</el-menu-item>
+                            <template slot="title"></template>
+                            <el-menu-item index="9-1">重要客户</el-menu-item>
+                            <el-menu-item index="9-2">新增的重要客户</el-menu-item>
+                            <el-menu-item index="9-3">丢失的重要客户</el-menu-item>
                         </el-submenu>
                         <el-menu-item index="99" disabled>
                             <i class="el-icon-document"></i>
