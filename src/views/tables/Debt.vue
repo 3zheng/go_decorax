@@ -80,7 +80,8 @@ export default {
         getData() {
             this.axios({
                 method: "get",
-                url: "http://localhost:24686/QK",
+                url: "http://localhost:24686/api/debt",   //后端服务器的实际端口
+                //url: "http://localhost:31111/api/debt",  //通过ngnix反向代理
             })
                 .then((repos) => {
                     console.log(repos.data);

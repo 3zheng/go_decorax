@@ -19,7 +19,7 @@
             <el-table-column label="序号" width="60">
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="ID" label="ID" width="80"></el-table-column>
+            <el-table-column prop="ID" label="ID" width="100"></el-table-column>
             <el-table-column prop="Name" label="类名" width="400"></el-table-column>
             <el-table-column prop="ProductSuperClass" label="大类" width="200"> </el-table-column>
             <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
@@ -79,7 +79,8 @@ export default {
         getData() {
             this.axios({
                 method: "get",
-                url: "http://localhost:24686/KC2",
+                url: "http://localhost:24686/api/inventory_summary",   //后端服务器的实际端口
+                //url: "http://localhost:31111/api/inventory_summary",  //通过ngnix反向代理
             })
                 .then((repos) => {
                     console.log(repos.data);

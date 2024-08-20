@@ -92,7 +92,8 @@ export default {
         getData() {
             this.axios({
                 method: "get",
-                url: "http://localhost:24686/KC",
+                url: "http://localhost:24686/api/inventory_warehouse",//后端服务器的实际端口
+                //url: "http://localhost:31111/api/inventory_warehouse",  //通过ngnix反向代理
             })
                 .then((repos) => {
                     console.log(repos.data);

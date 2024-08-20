@@ -46,15 +46,22 @@
                             <el-menu-item index="4-1">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'SalesRecord' }">销售员每日销售记录</router-link>
+                                    <router-link :to="{ name: 'SalesRecord' }">销售员日销售数据</router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="4-2">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventorySummary' }">库存概要</router-link>
+                                    <router-link :to="{ name: 'SalesSummary' }">销售员总销售数据</router-link>
                                 </span>
                             </el-menu-item>
+                            <el-menu-item index="4-3">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link :to="{ name: 'InventorySales' }">产品近30天销量</router-link>
+                                </span>
+                            </el-menu-item>
+                            
                         </el-submenu>
                         <el-submenu index="9">
                             <template slot="title">

@@ -6,6 +6,8 @@ import Inventory from '@/views/tables/Inventory.vue'
 import InventorySummary from '@/views/tables/InventorySummary.vue'
 import SalesRecord from '@/views/tables/SalesRecord.vue'
 import Debt from '@/views/tables/Debt.vue'
+import SalesSummary from '@/views/tables/SalesSummary.vue'
+import InventorySales from '@/views/tables/InventorySales.vue'
 
 Vue.use(VueRouter)
 
@@ -34,6 +36,12 @@ const routes = [
         props:true,
       },
       {
+        path:'/tables/InventorySales',
+        name:'InventorySales',
+        component:InventorySales,
+        props:true,
+      },
+      {
         path:'/tables/Debt',
         name:'Debt',
         component:Debt,
@@ -43,6 +51,12 @@ const routes = [
         path:'/tables/SalesRecord',
         name:'SalesRecord',
         component:SalesRecord,
+        props:true,
+      },
+      {
+        path:'/tables/SalesSummary',
+        name:'SalesSummary',
+        component:SalesSummary,
         props:true,
       },     
     ],
