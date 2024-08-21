@@ -43,6 +43,9 @@
                 <el-col :span="2"> </el-col>
             </el-row>
         </el-form>
+        <div style="margin-top: 10px;">
+            <el-progress v-if="showProgress" :text-inside="true" :color="customColors" :stroke-width="20" :percentage="progress"></el-progress>
+        </div>
     </div>
 </template>
 
@@ -55,6 +58,12 @@ export default {
             form: {  //表单
                 fuzzyQuery: '',  //模糊查询条件
             },
+            progress: 0,    //进度条进度 0-100
+            showProgress: true, //是否显示进度条
+            customColors: [
+                {color: '#e6a23c', percentage: 80},  //橙色
+                {color: '#67c23a', percentage: 100},    //绿色
+            ],
             totalData:[],      //所有数据
             searchData: [],  //根据条件筛选后数据集
             searchTotal: 0,   //数据个数
@@ -65,8 +74,9 @@ export default {
     },
 
     beforeRouteEnter: (to, from, next) => {
-        alert("进入Debt路由");
+        //alert("进入Debt路由");
         next((vm) => {
+            vm.startProgress();
             vm.getData();
         });
     },
@@ -77,19 +87,31 @@ export default {
     },
     */
     methods: {
+        startProgress() {
+            const interval = setInterval(() => {
+                if (this.progress < 100) {
+                    this.progress += 10;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        this.showProgress = false;
+                    }, 1000); // 1秒后隐藏进度条
+                }
+            }, 1000); // 每秒增加10%
+        },
         getData() {
             this.axios({
                 method: "get",
-                url: "http://localhost:24686/api/debt",   //后端服务器的实际端口
-                //url: "http://127.0.0.1:31111/api/debt",  //通过ngnix反向代理
+                //url: "http://localhost:24686/api/debt",   //后端服务器的实际端口
+                url: "http://35.203.42.244:31111/api/debt", //通过ngnix反向代理
             })
                 .then((repos) => {
                     console.log(repos.data);
                     this.totalData = repos.data;
                     this.searchData = repos.data;
                     this.searchTotal = this.searchData.length;
-                    alert(`searchTotal is ${this.searchTotal}`)
                     this.changeShowPage()
+                    this.progress = 100;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -113,14 +135,16 @@ export default {
             this.showData = this.searchData.slice(start, end);
         },
         onSubmit() {
-            alert("提交搜索表单")
-            if (this.form.fuzzyQuery != '') {
+            //alert("提交搜索表单")
+            var fuzzy = this.form.fuzzyQuery.trim()
+            if (fuzzy != '') {
                 //模糊查询
                 this.searchData = [];
                 this.totalData.forEach(item => {
                     for (let key in item){
-                        if(item[key] == this.form.fuzzyQuery){
+                        if(item[key] == fuzzy){
                             this.searchData.push(item);
+                            break;
                         }
                     }
                 })

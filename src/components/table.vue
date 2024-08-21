@@ -18,7 +18,7 @@ export default {
     },
 
     beforeRouteEnter: (to, from, next) => {
-        alert("进入bg1路由");
+
         next((vm) => {
             vm.getData();
         });
@@ -36,7 +36,7 @@ export default {
                 url: "http://localhost:24686/KC",
             })
                 .then((repos) => {
-                    alert(repos.data);
+                    //alert(repos.data);
                     console.log(repos.data);
                     this.searchData = repos.data;
                     this.total = this.searchData.length;

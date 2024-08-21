@@ -12,7 +12,7 @@
                     <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
                     <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
                 </el-col>
-                <el-col :span="11" offset="0">
+                <el-col :span="11">
                     <el-form-item label="精准查询:">
                         <el-input placeholder="产品ID" v-model="form.ID" style="width: 130px;"></el-input>
                     </el-form-item>
@@ -49,13 +49,16 @@
                 <el-col :span="2"> </el-col>
             </el-row>
         </el-form>
+        <div style="margin-top: 10px;">
+            <el-progress v-if="showProgress" :text-inside="true" :color="customColors" :stroke-width="20" :percentage="progress"></el-progress>
+        </div>
     </div>
 </template>
 
 <script>
 import table from '@/components/table.vue';
 export default {
-    props: ['pr1', 'pr2'],
+    //props: ['pr1', 'pr2'],
     name: 'inventory',
     data() {
         return {
@@ -64,8 +67,14 @@ export default {
                 ID: '',  //产品ID
                 WarehouseName: '',//仓库名称
             },
-            pr1: 0,
-            pr2: '',
+            progress: 0,    //进度条进度 0-100
+            showProgress: true, //是否显示进度条
+            customColors: [
+                {color: '#e6a23c', percentage: 80},  //橙色
+                {color: '#67c23a', percentage: 100},    //绿色
+            ],
+            //pr1: 0,
+            //pr2: '',
             totalData: [],  //从后台获取的所有数据
             searchData: [],  //根据查询条件筛选后获得的数据
             searchTotal: 0,   //数据个数
@@ -77,8 +86,9 @@ export default {
     },
 
     beforeRouteEnter: (to, from, next) => {
-        alert("进入bg1路由");
+        //alert("进入bg1路由");
         next((vm) => {
+            vm.startProgress();
             vm.getData();
         });
     },
@@ -89,11 +99,24 @@ export default {
     },
     */
     methods: {
+        startProgress() {
+            const interval = setInterval(() => {
+                if (this.progress < 100) {
+                    this.progress += 10;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        this.showProgress = false;
+                    }, 1000); // 1秒后隐藏进度条
+                }
+            }, 1000); // 每秒增加10%
+        },
+
         getData() {
             this.axios({
                 method: "get",
-                url: "http://localhost:24686/api/inventory_warehouse",//后端服务器的实际端口
-                //url: "http://127.0.0.1:31111/api/inventory_warehouse",  //通过ngnix反向代理
+                //url: "http://localhost:24686/api/inventory_warehouse",//后端服务器的实际端口
+                url: "http://35.203.42.244:31111/api/inventory_warehouse",  //通过ngnix反向代理
             })
                 .then((repos) => {
                     console.log(repos.data);
@@ -101,10 +124,11 @@ export default {
                     this.totalData = repos.data;
                     this.searchData = repos.data;    //条件查询数据也是总数据，因为此时没有查询条件
                     this.searchTotal = this.searchData.length;
-                    this.changeShowPage()
+                    this.changeShowPage();
+                    this.progress = 100;
                 })
                 .catch((error) => {
-                    alert('axios错误')
+                    //alert('axios错误')
                     console.log(error);
                 });
         },
@@ -126,26 +150,29 @@ export default {
             this.showData = this.searchData.slice(start, end);
         },
         onSubmit() {
-            alert("提交搜索表单")
-            if (this.form.ID != '' || this.form.WarehouseName != '') {
-                alert(`进入精准搜索：ID=${this.form.ID},WarehouseName=${this.form.WarehouseName}`)
+            //alert("提交搜索表单")
+            var fuzzy = this.form.fuzzyQuery.trim()
+            var ID = this.form.ID.trim()
+            var WarehouseName = this.form.WarehouseName.trim()
+            if (ID != '' || WarehouseName != '') {
+                //alert(`进入精准搜索：ID=${ID},WarehouseName=${WarehouseName}`)
                 //优先精准查询
                 var keyArr = new Array();
                 var obj = {};
                 //把查询条件放入数组中
-                if (this.form.ID != '') {
-                    obj['ID'] = this.form.ID;
+                if (ID != '') {
+                    obj['ID'] = ID;
                     keyArr.push(obj);
                 }
-                if (this.form.WarehouseName != '') {
-                    obj['WarehouseName'] = this.form.WarehouseName;
+                if (WarehouseName != '') {
+                    obj['WarehouseName'] = WarehouseName;
                     keyArr.push(obj);
                 }
                 var output = '';
-                for(const [key,value] of Object.entries(obj)){
-                    output = output + `${key}:${value}`
+                for (const [key, value] of Object.entries(obj)) {
+                    output = output + `${key}:${value}`;
                 }
-                alert(`条件数组：${output}`)
+                //alert(`条件数组：${output}`);
                 //先清空条件筛选的所有数据
                 this.searchData = [];
                 this.totalData.forEach(item => {
@@ -163,20 +190,21 @@ export default {
                     //如果找到了数据
                     if (isFound) {
                         output = '';
-                for(const [key,value] of Object.entries(item)){
-                    output = output + `${key}:${value}`
-                }
-                        console.log(`找到了数据:${output}`)
-                        this.searchData.push(item)
+                        for (const [key, value] of Object.entries(item)) {
+                            output = output + `${key}:${value}`
+                        }
+                        console.log(`找到了数据:${output}`);
+                        this.searchData.push(item);
                     }
                 });
-            } else if (this.form.fuzzyQuery != '') {
+            } else if (fuzzy != '') {
                 //模糊查询
                 this.searchData = [];
                 this.totalData.forEach(item => {
-                    for (let key in item){
-                        if(item[key] == this.form.fuzzyQuery){
+                    for (let key in item) {
+                        if (item[key] == fuzzy) {
                             this.searchData.push(item);
+                            break;
                         }
                     }
                 })
@@ -194,14 +222,14 @@ export default {
             this.currentPage = 1;
             this.changeShowPage();
         },
-        onPageUp(){
-            if (this.currentPage > 1){
-                this.handleCurrentChange(this.currentPage-1)
-            }           
+        onPageUp() {
+            if (this.currentPage > 1) {
+                this.handleCurrentChange(this.currentPage - 1)
+            }
         },
-        onPageDown(){
-            if (this.currentPage * this.pageSize < this.searchTotal){
-                this.handleCurrentChange(this.currentPage+1)
+        onPageDown() {
+            if (this.currentPage * this.pageSize < this.searchTotal) {
+                this.handleCurrentChange(this.currentPage + 1)
             }
         },
     },

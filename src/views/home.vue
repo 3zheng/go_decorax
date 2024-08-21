@@ -9,7 +9,7 @@
                 </el-breadcrumb>
             </el-header>
             <el-container>
-                <el-aside width="200px">
+                <el-aside width="230px">
                     <el-menu default-active="1" class="el-menu-vertical-demo" background-color="#545c64"
                         text-color="#fff" active-text-color="#ffd04b">
                         <el-submenu index="1">
@@ -18,23 +18,24 @@
                                 <span>库存</span>
                             </template>
                             <template slot="title"></template>
-                            <el-menu-item index="1-1">
-                                <i class="el-icon-menu"></i>
-                                <span slot="title">
-                                    <router-link :to="{ name: 'Inventory', params: { pr1: 114514, pr2: 'zhendema' } }">按ID仓库排序</router-link>
-                                </span>
-                            </el-menu-item>
                             <el-menu-item index="1-2">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventorySummary' }">库存概要</router-link>
+                                    <router-link :to="{ name: 'InventorySummary' }" class = "custom-link" active-class="active-link">库存概要</router-link>
                                 </span>
+                            </el-menu-item>
+                            <el-menu-item index="1-1">
+                                <i class="el-icon-menu"></i>
+                                <router-link :to="{ name: 'Inventory' }" class = "custom-link" active-class="active-link">按ID仓库排序</router-link>
+                                <!--span slot="title">
+                                    <router-link :to="{ name: 'Inventory', params: { pr1: 114514, pr2: 'zhendema' } }">按ID仓库排序</router-link>
+                                </span-->
                             </el-menu-item>
                         </el-submenu>
                         <el-menu-item index="3">
                             <i class="el-icon-menu"></i>
                             <span slot="title">
-                                <router-link :to="{ name: 'Debt' }">欠款数据</router-link>
+                                <router-link :to="{ name: 'Debt' }" class = "custom-link" active-class="active-link">欠款数据</router-link>
                             </span>
                         </el-menu-item>
                         <el-submenu index="4">
@@ -46,19 +47,19 @@
                             <el-menu-item index="4-1">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'SalesRecord' }">销售员日销售数据</router-link>
+                                    <router-link :to="{ name: 'SalesRecord' }" class = "custom-link" active-class="active-link">销售员日销售数据</router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="4-2">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'SalesSummary' }">销售员总销售数据</router-link>
+                                    <router-link :to="{ name: 'SalesSummary' }" class = "custom-link" active-class="active-link">销售员总销售数据</router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="4-3">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventorySales' }">产品近30天销量</router-link>
+                                    <router-link :to="{ name: 'InventorySales' }" class = "custom-link" active-class="active-link">产品近30天销量</router-link>
                                 </span>
                             </el-menu-item>
                             
@@ -147,4 +148,15 @@ body>.el-container {
 .el-container:nth-child(7) .el-aside {
     line-height: 320px;
 }
+
+.custom-link {
+    color: white; /* 修改链接颜色 */
+    text-decoration: none; /* 去掉下划线 */
+}
+
+.active-link {
+    color: rgb(25, 244, 36); /* 修改链接颜色 */
+    text-decoration: none; /* 去掉下划线 */
+}
+
 </style>
