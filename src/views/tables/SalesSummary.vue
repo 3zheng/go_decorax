@@ -77,8 +77,8 @@ export default {
         getData() {
             this.axios({
                 method: "get",
-                url: "http://localhost:24686/api/sales_summary",   //后端服务器的实际端口
-                //url: "http://localhost:31111/api/sales_summary",  //通过ngnix反向代理
+                //url: "http://localhost:24686/api/sales_summary",   //后端服务器的实际端口
+                url: "http://localhost:31111/api/sales_summary",  //通过ngnix反向代理
             })
                 .then((repos) => {
                     console.log(repos.data);
@@ -88,6 +88,7 @@ export default {
                     this.changeShowPage()
                 })
                 .catch((error) => {
+                    alert('axios错误')
                     console.log(error);
                 });
         },
