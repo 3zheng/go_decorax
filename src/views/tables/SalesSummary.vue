@@ -23,6 +23,7 @@
             <el-table-column prop="Salesman" label="销售员姓名" width="250"> </el-table-column>
             <el-table-column prop="SalesAmount" label="销售总额" width="120"></el-table-column>            
             <el-table-column prop="OrderFormNum" label="订单数量" width="80"> </el-table-column>
+            <el-table-column prop="SalesMonth" label="月份" width="100"> </el-table-column>
         </el-table>
         <!--分页-->
         <el-form :inline="true">

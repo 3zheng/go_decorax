@@ -18,7 +18,7 @@ export default {
     },
 
     beforeRouteEnter: (to, from, next) => {
-
+        //alert("进入bg1路由");
         next((vm) => {
             vm.getData();
         });

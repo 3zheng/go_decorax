@@ -53,7 +53,7 @@
                             <el-menu-item index="4-2">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'SalesSummary' }" class = "custom-link" active-class="active-link">销售员总销售数据</router-link>
+                                    <router-link :to="{ name: 'SalesSummary' }" class = "custom-link" active-class="active-link">销售员月销售数据</router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="4-3">
@@ -61,8 +61,7 @@
                                 <span slot="title">
                                     <router-link :to="{ name: 'InventorySales' }" class = "custom-link" active-class="active-link">产品近30天销量</router-link>
                                 </span>
-                            </el-menu-item>
-                            
+                            </el-menu-item>                            
                         </el-submenu>
                         <el-submenu index="9">
                             <template slot="title">

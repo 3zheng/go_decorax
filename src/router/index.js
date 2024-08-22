@@ -8,6 +8,7 @@ import SalesRecord from '@/views/tables/SalesRecord.vue'
 import Debt from '@/views/tables/Debt.vue'
 import SalesSummary from '@/views/tables/SalesSummary.vue'
 import InventorySales from '@/views/tables/InventorySales.vue'
+import defaultTable from '@/views/tables/defaultTable.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,12 @@ const routes = [
     name: 'home',
     component: home,
     children:[
+      {
+        path:'',  //路径为空的话就会默认渲染这个路由
+        name:'defaultTable',
+        component:defaultTable,
+        props:true,
+      },
       {
         path:'/tables/Inventory',
         name:'Inventory',
