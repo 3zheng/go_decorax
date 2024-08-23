@@ -9,6 +9,9 @@ import Debt from '@/views/tables/Debt.vue'
 import SalesSummary from '@/views/tables/SalesSummary.vue'
 import InventorySales from '@/views/tables/InventorySales.vue'
 import defaultTable from '@/views/tables/defaultTable.vue'
+import InventoryCBB from '@/views/tables/InventoryCBB.vue'
+import InventoryLPZ from '@/views/tables/InventoryLPZ.vue'
+import InventorySCZ from '@/views/tables/InventorySCZ.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +43,24 @@ const routes = [
         path:'/tables/InventorySummary',
         name:'InventorySummary',
         component:InventorySummary,
+        props:true,
+      },
+      {
+        path:'/tables/InventoryCBB',
+        name:'InventoryCBB',
+        component:InventoryCBB,
+        props:true,
+      },
+      {
+        path:'/tables/InventoryLPZ',
+        name:'InventoryLPZ',
+        component:InventoryLPZ,
+        props:true,
+      },
+      {
+        path:'/tables/InventorySCZ',
+        name:'InventorySCZ',
+        component:InventorySCZ,
         props:true,
       },
       {

@@ -2,7 +2,6 @@
     <div>
         <!--查询按钮-->
         <el-form :inline="true" ref="form" :model="form">
-            <!--el-row :gutter="20"-->
             <el-row>
                 <el-col :span="8">
                     <el-form-item label="模糊查询:">
@@ -13,16 +12,6 @@
                     <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
                     <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
                 </el-col>
-                <el-col :span="11">
-                    <!--日期选择器-->
-                    <div class="block">
-                        <!--span class="demonstration">带快捷选项</span-->
-                        <el-date-picker v-model="dateValue" value-format="yyyy-MM-dd" type="daterange" align="right" unlink-panels
-                            range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-                            :picker-options="pickerOptions" @change="onSubmitDate">
-                        </el-date-picker>
-                    </div>
-                </el-col>
             </el-row>
         </el-form>
         <!--表格-->
@@ -30,10 +19,15 @@
             <el-table-column label="序号" width="60">
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="Name" label="销售员姓名" width="250"> </el-table-column>
-            <el-table-column prop="SalesDate" label="销售日期" width="100"></el-table-column>
-            <el-table-column prop="SalesAmount" label="销售金额" width="120"></el-table-column>
-            <el-table-column prop="OrderFormNum" label="订单数量" width="80"> </el-table-column>
+            <el-table-column prop="ID" label="ID" width="100"></el-table-column>
+            <el-table-column prop="Name" label="类名" width="300"></el-table-column>
+            <el-table-column prop="Descrption" label="类名" width="300"></el-table-column>
+            <el-table-column prop="ProductSuperClass" label="大类" width="200"> </el-table-column>
+            <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
+            <el-table-column prop="InventoryCost" label="库存价值" width="100"> </el-table-column>
+            <el-table-column prop="SalesQuantity180days" label="近180天销量" width="100"> </el-table-column>
+            <!--el-table-column prop="InventoryCost" label="库存价值"> </el-table-column>
+            <el-table-column prop="SalesQuantity30days" label="近30天销量"> </el-table-column-->
         </el-table>
         <!--分页-->
         <el-form :inline="true">
@@ -53,8 +47,7 @@
         </el-form>
         <!--进度条-->
         <div style="margin-top: 10px;">
-            <el-progress v-if="showProgress" :text-inside="true" :color="customColors" :stroke-width="20"
-                :percentage="progress"></el-progress>
+            <el-progress v-if="showProgress" :text-inside="true" :color="customColors" :stroke-width="20" :percentage="progress"></el-progress>
         </div>
     </div>
 </template>
@@ -62,7 +55,7 @@
 <script>
 import table from '@/components/table.vue';
 export default {
-    name:'SalesRecord',
+    name:'InventorySummary',
     data() {
         return {
             form: {  //表单
@@ -75,38 +68,16 @@ export default {
                 {color: '#67c23a', percentage: 100},    //绿色
             ],
             totalData:[],   //所有数据
-            searchData: [],  //根据条件筛选后获得的数据集，和showData直接关联
-            searchTotal: 0,   //数据个数
+            searchData: [],  //根据条件筛选后数据集
+            searchTotal: 0,   //根据条件筛选后的数据个数
             showData:[],    //当前显示的数据
             pageSize:5, //每页展示的数据个数
             currentPage:1,  //当前页
-            //日期选择器
-            pickerOptions: {    //快捷选项
-                shortcuts: [{
-                    text: '最近一周',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', [start, end]);
-                    }
-                }, 
-                {
-                    text: '最近一个月',
-                    onClick(picker) {
-                        const end = new Date();
-                        const start = new Date();
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                        picker.$emit('pick', [start, end]);
-                    }
-                },]
-            },
-            dateValue:[],
         };
     },
 
     beforeRouteEnter: (to, from, next) => {
-        //alert("进入SalesRecord路由");
+        //alert("进入InventorySummary路由");
         next((vm) => {
             vm.startProgress();
             vm.getData();
@@ -134,14 +105,18 @@ export default {
         getData() {
             this.axios({
                 method: "get",
-                //url: "http://localhost:24686/api/sales_record",   //后端服务器的实际端口
-                url: "http://35.203.42.244:31111/api/sales_record",  //通过ngnix反向代理
+                url: "http://localhost:24686/api/inventory_summary",   //后端服务器的实际端口
+                //url: "http://35.203.42.244:31111/api/inventory_summary",  //通过ngnix反向代理
+                params: {
+                    city: 'CBB',
+                },
             })
                 .then((repos) => {
                     console.log(repos.data);
-                    this.totalData = repos.data
+                    this.totalData = repos.data;
                     this.searchData = repos.data;
                     this.searchTotal = this.searchData.length;
+                    this.currentPage = 1;
                     this.changeShowPage();
                     this.progress = 100;
                 })
@@ -203,23 +178,6 @@ export default {
             if (this.currentPage * this.pageSize < this.searchTotal){
                 this.handleCurrentChange(this.currentPage+1)
             }
-        },
-        onSubmitDate() {
-            if (this.dateValue.length < 2) {
-                console.log("日期选择器获取的日期元素小于2");
-                return;
-            }
-            const start = this.dateValue[0], end = this.dateValue[1];
-            this.searchData = [];
-            this.totalData.forEach(item => {
-                if (item['SalesDate'] >= start  && item['SalesDate'] <= end) {
-                    console.log("找到了")
-                    this.searchData.push(item);
-                }
-            })
-            this.searchTotal = this.searchData.length
-            this.currentPage = 1;
-            this.changeShowPage();
         },
     },
 }

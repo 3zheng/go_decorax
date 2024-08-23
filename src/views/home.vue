@@ -31,6 +31,24 @@
                                     <router-link :to="{ name: 'Inventory', params: { pr1: 114514, pr2: 'zhendema' } }">按ID仓库排序</router-link>
                                 </span-->
                             </el-menu-item>
+                            <el-menu-item index="1-3">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link :to="{ name: 'InventorySCZ' }" class = "custom-link" active-class="active-link">Santa Cruz库存</router-link>
+                                </span>
+                            </el-menu-item>
+                            <el-menu-item index="1-4">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link :to="{ name: 'InventoryLPZ' }" class = "custom-link" active-class="active-link">La Paz库存</router-link>
+                                </span>
+                            </el-menu-item>
+                            <el-menu-item index="1-5">
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">
+                                    <router-link :to="{ name: 'InventoryCBB' }" class = "custom-link" active-class="active-link">Cochabamba库存</router-link>
+                                </span>
+                            </el-menu-item>
                         </el-submenu>
                         <el-menu-item index="3">
                             <i class="el-icon-menu"></i>
