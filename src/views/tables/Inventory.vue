@@ -75,6 +75,7 @@ export default {
             ],
             //pr1: 0,
             //pr2: '',
+            isGetall: false,   //是否已经获取了全部数据，避免全部获取的数据先到，部分获取的数据覆盖了全部获取
             totalData: [],  //从后台获取的所有数据
             searchData: [],  //根据查询条件筛选后获得的数据
             searchTotal: 0,   //数据个数
@@ -88,8 +89,10 @@ export default {
     beforeRouteEnter: (to, from, next) => {
         //alert("进入bg1路由");
         next((vm) => {
+            vm.isGetall = false
             vm.startProgress();
-            vm.getData();
+            vm.getPartialData();
+            vm.getAllData();
         });
     },
     /*
@@ -112,23 +115,50 @@ export default {
             }, 1000); // 每秒增加10%
         },
 
-        getData() {
+        getPartialData() {
             this.axios({
                 method: "get",
                 //url: "http://localhost:24686/api/inventory_warehouse",//后端服务器的实际端口
                 url: "http://35.203.42.244:31111/api/inventory_warehouse",  //通过ngnix反向代理
                 params: {
-                    key1: 'value1',
+                    volume: 'partial',
                 }
             })
                 .then((repos) => {
-                    console.log(repos.data);
+                    //如果已经获取了全部数据就直接返回
+                    if (this.isGetall){
+                        return
+                    }
+                    //console.log(repos.data);
                     this.currentPage = 1;
                     this.totalData = repos.data;
                     this.searchData = repos.data;    //条件查询数据也是总数据，因为此时没有查询条件
                     this.searchTotal = this.searchData.length;
                     this.changeShowPage();
+                    this.progress = 20;
+                })
+                .catch((error) => {
+                    //alert('axios错误')
+                    console.log(error);
+                });
+        },
+        getAllData(){
+            this.axios({
+                method: "get",
+                //url: "http://localhost:24686/api/inventory_warehouse",//后端服务器的实际端口
+                url: "http://35.203.42.244:31111/api/inventory_warehouse",  //通过ngnix反向代理
+                params: {
+                    volume: 'all',
+                }
+            })
+                .then((repos) => {
+                    //console.log(repos.data);
+                    this.totalData = repos.data;
+                    this.searchData = repos.data;    //条件查询数据也是总数据，因为此时没有查询条件
+                    this.searchTotal = this.searchData.length;
+                    this.changeShowPage();
                     this.progress = 100;
+                    this.isGetall = true    //已经获取所有数据
                 })
                 .catch((error) => {
                     //alert('axios错误')

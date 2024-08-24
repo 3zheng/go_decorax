@@ -123,7 +123,7 @@ export default {
                 url: "http://35.203.42.244:31111/api/debt_summary", //通过ngnix反向代理
             })
                 .then((repos) => {
-                    console.log(repos.data);
+                    //console.log(repos.data);
                     this.totalDataDebt = repos.data;
                     this.searchDataDebt = repos.data;
                     this.searchTotalDebt = this.searchDataDebt.length;
@@ -141,7 +141,7 @@ export default {
                 url: "http://35.203.42.244:31111/api/sales_record", //通过ngnix反向代理
             })
                 .then((repos) => {
-                    console.log(repos.data);
+                    //console.log(repos.data);
                     this.totalDataSales = repos.data;
                     this.searchDataSales = repos.data;
                     this.searchTotalSales = this.searchDataSales.length;

@@ -106,7 +106,7 @@ export default {
                 url: "http://35.203.42.244:31111/api/debt_daily", //通过ngnix反向代理
             })
                 .then((repos) => {
-                    console.log(repos.data);
+                    //console.log(repos.data);
                     this.totalData = repos.data;
                     this.searchData = repos.data;
                     this.searchTotal = this.searchData.length;

@@ -11,6 +11,7 @@
                 <el-col :span="5">
                     <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
                     <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
+                    <el-button type="warning" icon="el-icon-info" @click="onLack">库存不足</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -19,13 +20,12 @@
             <el-table-column label="序号" width="60">
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="ID" label="ID" width="100"></el-table-column>
-            <el-table-column prop="Name" label="类名" width="300"></el-table-column>
-            <el-table-column prop="Descrption" label="类名" width="300"></el-table-column>
-            <el-table-column prop="ProductSuperClass" label="大类" width="200"> </el-table-column>
-            <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
-            <el-table-column prop="InventoryCost" label="库存价值" width="100"> </el-table-column>
+            <el-table-column prop="ID" label="ID" width="140"></el-table-column>
             <el-table-column prop="SalesQuantity180days" label="近180天销量" width="100"> </el-table-column>
+            <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
+            <el-table-column prop="Name" label="类名" width="300"></el-table-column>
+            <el-table-column prop="ProductSuperClass" label="大类" width="150"> </el-table-column>
+            <el-table-column prop="Descrption" label="产品描述" width="320"> </el-table-column>          
             <!--el-table-column prop="InventoryCost" label="库存价值"> </el-table-column>
             <el-table-column prop="SalesQuantity30days" label="近30天销量"> </el-table-column-->
         </el-table>
@@ -77,7 +77,6 @@ export default {
     },
 
     beforeRouteEnter: (to, from, next) => {
-        //alert("进入InventorySummary路由");
         next((vm) => {
             vm.startProgress();
             vm.getData();
@@ -105,14 +104,13 @@ export default {
         getData() {
             this.axios({
                 method: "get",
-                url: "http://localhost:24686/api/inventory_summary",   //后端服务器的实际端口
-                //url: "http://35.203.42.244:31111/api/inventory_summary",  //通过ngnix反向代理
+                //url: "http://localhost:24686/api/inventory_city",   //后端服务器的实际端口
+                url: "http://35.203.42.244:31111/api/inventory_city",  //通过ngnix反向代理
                 params: {
                     city: 'CBB',
                 },
             })
                 .then((repos) => {
-                    console.log(repos.data);
                     this.totalData = repos.data;
                     this.searchData = repos.data;
                     this.searchTotal = this.searchData.length;
@@ -178,6 +176,17 @@ export default {
             if (this.currentPage * this.pageSize < this.searchTotal){
                 this.handleCurrentChange(this.currentPage+1)
             }
+        },
+        onLack() {
+            this.searchData = [];
+            this.totalData.forEach(item => {
+                if (item['ResidualNum'] < item['SalesQuantity180days'] / 6) {
+                    this.searchData.push(item);
+                }
+            })
+            this.searchTotal = this.searchData.length
+            this.currentPage = 1;
+            this.changeShowPage();
         },
     },
 }

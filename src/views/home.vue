@@ -11,7 +11,7 @@
             <el-container>
                 <el-aside width="230px">
                     <el-menu default-active="1" class="el-menu-vertical-demo" background-color="#545c64"
-                        text-color="#fff" active-text-color="#ffd04b">
+                        text-color="#fff" active-text-color="#ffd04b" style="text-align: left;">
                         <el-submenu index="1">
                             <template slot="title">
                                 <i class="el-icon-location"></i>
@@ -21,7 +21,9 @@
                             <el-menu-item index="1-2">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventorySummary' }" class = "custom-link" active-class="active-link">库存概要</router-link>
+                                    <router-link :to="{ name: 'InventorySummary' }" class = "custom-link" active-class="active-link">
+                                        库存概要&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="1-1">
@@ -34,26 +36,26 @@
                             <el-menu-item index="1-3">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventorySCZ' }" class = "custom-link" active-class="active-link">Santa Cruz库存</router-link>
+                                    <router-link :to="{ name: 'InventorySCZ' }" class = "custom-link" active-class="active-link">Santa Cruz库存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="1-4">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventoryLPZ' }" class = "custom-link" active-class="active-link">La Paz库存</router-link>
+                                    <router-link :to="{ name: 'InventoryLPZ' }" class = "custom-link" active-class="active-link">La Paz库存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="1-5">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventoryCBB' }" class = "custom-link" active-class="active-link">Cochabamba库存</router-link>
+                                    <router-link :to="{ name: 'InventoryCBB' }" class = "custom-link" active-class="active-link">Cochabamba库存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</router-link>
                                 </span>
                             </el-menu-item>
                         </el-submenu>
                         <el-menu-item index="3">
                             <i class="el-icon-menu"></i>
                             <span slot="title">
-                                <router-link :to="{ name: 'Debt' }" class = "custom-link" active-class="active-link">欠款数据</router-link>
+                                <router-link :to="{ name: 'Debt' }" class = "custom-link" active-class="active-link">欠款数据&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</router-link>
                             </span>
                         </el-menu-item>
                         <el-submenu index="4">
