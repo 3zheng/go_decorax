@@ -8,7 +8,7 @@
                         <el-input placeholder="输入条件" v-model="form.fuzzyQuery"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="8">
                     <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
                     <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
                     <el-button type="warning" icon="el-icon-info" @click="onLack">库存不足</el-button>
@@ -21,7 +21,7 @@
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
             <el-table-column prop="ID" label="ID" width="140"></el-table-column>
-            <el-table-column prop="SalesQuantity180days" label="近180天销量" width="100"> </el-table-column>
+            <el-table-column prop="SalesQuantity180days" label="月均销量" width="100" :formatter="formatResidualNum"> </el-table-column>
             <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
             <el-table-column prop="Name" label="类名" width="300"></el-table-column>
             <el-table-column prop="ProductSuperClass" label="大类" width="150"> </el-table-column>
@@ -181,13 +181,16 @@ export default {
         onLack() {
             this.searchData = [];
             this.totalData.forEach(item => {
-                if (item['ResidualNum'] < item['SalesQuantity180days'] / 6) {
+                if (item['ResidualNum'] < item['SalesQuantity180days'] / 2) {
                     this.searchData.push(item);
                 }
             })
             this.searchTotal = this.searchData.length
             this.currentPage = 1;
             this.changeShowPage();
+        },
+        formatResidualNum(row, column, cellValue) {
+            return (cellValue / 6).toFixed(2); // 保留两位小数
         },
     },
 }
