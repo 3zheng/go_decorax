@@ -1,5 +1,8 @@
 <template>
     <div>
+        <!--图表饼状图、条形图-->
+        <div ref="pieChart" style="width: 800px; height: 400px;"></div>
+        <div ref="trapezoidChart" style="width: 800px; height: 400px; margin-top: 30px;"></div>
         <!--表格1-->
         <h3>欠款概要</h3>
         <el-table :data="showDataDebt" border style="width: 100%" size="mini">
@@ -60,6 +63,13 @@
 
 <script>
 import table from '@/components/table.vue';
+import * as echarts from 'echarts';
+import { CanvasRenderer } from 'echarts/renderers';
+import { PieChart, LineChart } from 'echarts/charts';
+import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components';
+
+echarts.use([CanvasRenderer, PieChart, LineChart, TitleComponent, TooltipComponent, LegendComponent]);
+
 export default {
     name:'Debt',
     data() {
@@ -120,7 +130,8 @@ export default {
             this.axios({
                 method: "get",
                 //url: "http://localhost:24686/api/debt_summary",   //后端服务器的实际端口
-                url: "http://35.203.42.244:31111/api/debt_summary", //通过ngnix反向代理
+                //url: "http://35.203.42.244:31111/api/debt_summary", //通过ngnix反向代理
+                url: "http://104.225.234.236:31111/api/debt_summary", //通过ngnix反向代理
             })
                 .then((repos) => {
                     //console.log(repos.data);
@@ -129,6 +140,7 @@ export default {
                     this.searchTotalDebt = this.searchDataDebt.length;
                     this.changeShowPageDebt()
                     this.progress = this.progress+50;
+                    this.initPieChart();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -138,7 +150,8 @@ export default {
             this.axios({
                 method: "get",
                 //url: "http://localhost:24686/api/sales_record",   //后端服务器的实际端口
-                url: "http://35.203.42.244:31111/api/sales_record", //通过ngnix反向代理
+                //url: "http://35.203.42.244:31111/api/sales_record", //通过ngnix反向代理
+                url: "http://104.225.234.236:31111/api/sales_record", //通过ngnix反向代理
             })
                 .then((repos) => {
                     //console.log(repos.data);
@@ -147,6 +160,7 @@ export default {
                     this.searchTotalSales = this.searchDataSales.length;
                     this.changeShowPageSales()
                     this.progress = this.progress = this.progress+50;
+                    this.initTrapezoidChart();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -206,6 +220,105 @@ export default {
             if (this.currentPageSales * this.pageSizeSales < this.searchTotalSales){
                 this.handleCurrentChangeSales(this.currentPageSales+1)
             }
+        },
+        initPieChart() {
+            // 基于准备好的dom，初始化echarts实例
+            const pieChart = echarts.init(this.$refs.pieChart);
+
+            let radiusValue = '55%';
+let centerValue = ['50%', '50%'];
+let chartTitle = '动态饼图';
+let data = [
+  { value: 335, name: '直接访问' },
+  { value: 310, name: '邮件营销' }
+];
+            // 指定图表的配置项和数据
+            const option = {
+                title: {
+                    text: '数据饼状图',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    //{a}, {b}, {c}, {d} 表示series.name、series.data.name、series.data.value、百分比
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'  
+                    //或者使用formater:function (params)来达到效果
+                    /*
+                    formatter: function (params) {
+                        return `
+                        系列: ${params.seriesName}<br>
+                        名称: ${params.name}<br>
+                        值: ${params.value}<br>
+                        百分比: ${params.percent || ''}%
+                        `;
+                    },
+                    */
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['分类1', '分类2', '分类3', '分类4', '分类5']
+                },
+                series: [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '50%'],
+                        data: [
+                            { value: 335, name: '分类1' },
+                            { value: 310, name: '分类2' },
+                            { value: 234, name: '分类3' },
+                            { value: 135, name: '分类4' },
+                            { value: 1548, name: '分类5' }
+                        ],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表
+            pieChart.setOption(option);
+        },
+        initTrapezoidChart() {
+            const trapezoidChart = echarts.init(this.$refs.trapezoidChart);
+
+            const option = {
+                title: {
+                    text: '梯形图',
+                    x: 'center'
+                },
+                tooltip: {},
+                xAxis: {
+                    type: 'category',
+                    data: ['一', '二', '三', '四', '五']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        type: 'bar',
+                        data: [10, 20, 15, 25, 30],
+                        barWidth: [50],
+                        itemStyle: {
+                            color: function (params) {
+                                // 通过判断值的大小实现梯形效果
+                                const colors = ['#5470C6', '#91CC75', '#FAC858', '#EE6666', '#73C0DE'];
+                                return colors[params.dataIndex];
+                            }
+                        }
+                    }
+                ]
+            };
+
+            trapezoidChart.setOption(option);
         },
     },
 }

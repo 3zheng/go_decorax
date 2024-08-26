@@ -103,7 +103,8 @@ export default {
             this.axios({
                 method: "get",
                 //url: "http://localhost:24686/api/debt_daily",   //后端服务器的实际端口
-                url: "http://35.203.42.244:31111/api/debt_daily", //通过ngnix反向代理
+                //url: "http://35.203.42.244:31111/api/debt_daily", //通过ngnix反向代理
+                url: "http://104.225.234.236:31111/api/debt_daily", //通过ngnix反向代理
             })
                 .then((repos) => {
                     //console.log(repos.data);

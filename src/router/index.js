@@ -13,6 +13,7 @@ import InventoryCBB from '@/views/tables/InventoryCBB.vue'
 import InventoryLPZ from '@/views/tables/InventoryLPZ.vue'
 import InventorySCZ from '@/views/tables/InventorySCZ.vue'
 
+
 Vue.use(VueRouter)
 
 
@@ -26,7 +27,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: home,
-    children:[
+    children:[     
       {
         path:'',  //路径为空的话就会默认渲染这个路由
         name:'defaultTable',
