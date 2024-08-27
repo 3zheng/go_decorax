@@ -25,7 +25,7 @@ const routes = [
   },
   {
     path: '/',
-    name: 'home',
+    //name: 'home', //有默认子路由时，应该把name注释掉
     component: home,
     children:[     
       {
