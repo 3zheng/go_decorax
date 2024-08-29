@@ -5,13 +5,13 @@
             <!--el-row :gutter="20"-->
             <el-row>
                 <el-col :span="8">
-                    <el-form-item label="模糊查询:">
-                        <el-input placeholder="输入条件" v-model="form.fuzzyQuery"></el-input>
+                    <el-form-item label="Buscar:">
+                        <el-input placeholder="Palabras Clave De Entrada" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5">
-                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
-                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">Buscar</el-button>
+                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">Reiniciar</el-button>
                 </el-col>
                 <el-col :span="11">
                     <!--日期选择器-->
@@ -27,20 +27,20 @@
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column label="序号" width="60">
+            <el-table-column label="Número De Serie" width="60">
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
             <el-table-column prop="Name" label="销售员姓名" width="250"> </el-table-column>
-            <el-table-column prop="SalesDate" label="销售日期" width="100"></el-table-column>
-            <el-table-column prop="SalesAmount" label="销售金额" width="120"></el-table-column>
-            <el-table-column prop="OrderFormNum" label="订单数量" width="80"> </el-table-column>
+            <el-table-column prop="SalesDate" label="Fecha De Venta" width="100"></el-table-column>
+            <el-table-column prop="SalesAmount" label="Monto De Ventas" width="120"></el-table-column>
+            <el-table-column prop="OrderFormNum" label="Número de Pedidos" width="80"> </el-table-column>
         </el-table>
         <!--分页-->
         <el-form :inline="true">
             <el-row style="margin-top: 10px">
                 <el-col :span="8" style="text-align: left; margin-top: 0px">
-                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">上一页</el-button>
-                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">下一页</el-button>
+                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">Página Arriba</el-button>
+                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">Página Abajo</el-button>
                 </el-col>
                 <el-col :span="10" style="text-align: right; margin-top: 0px">
                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
@@ -108,8 +108,11 @@ export default {
     beforeRouteEnter: (to, from, next) => {
         //alert("进入SalesRecord路由");
         next((vm) => {
+            vm.isGetall = false
             vm.startProgress();
-            vm.getData();
+            //vm.getData();
+            vm.getPartialData();
+            vm.getAllData();
         });
     },
     /*
@@ -130,6 +133,58 @@ export default {
                     }, 1000); // 1秒后隐藏进度条
                 }
             }, 1000); // 每秒增加10%
+        },
+        getPartialData() {
+            this.axios({
+                method: "get",
+                //url: "http://localhost:24686/api/sales_record",//后端服务器的实际端口
+                //url: "http://35.203.42.244:31111/api/sales_record",  //通过ngnix反向代理
+                url: "http://104.225.234.236:31111/api/sales_record", //通过ngnix反向代理
+                params: {
+                    volume: 'partial',
+                }
+            })
+                .then((repos) => {
+                    //如果已经获取了全部数据就直接返回
+                    if (this.isGetall){
+                        return
+                    }
+                    //console.log(repos.data);
+                    this.currentPage = 1;
+                    this.totalData = repos.data;
+                    this.searchData = repos.data;    //条件查询数据也是总数据，因为此时没有查询条件
+                    this.searchTotal = this.searchData.length;
+                    this.changeShowPage();
+                    this.progress = this.progress+20;
+                })
+                .catch((error) => {
+                    //alert('axios错误')
+                    console.log(error);
+                });
+        },
+        getAllData(){
+            this.axios({
+                method: "get",
+                //url: "http://localhost:24686/api/sales_record",//后端服务器的实际端口
+                //url: "http://35.203.42.244:31111/api/sales_record",  //通过ngnix反向代理
+                url: "http://104.225.234.236:31111/api/sales_record", //通过ngnix反向代理
+                params: {
+                    volume: 'all',
+                }
+            })
+                .then((repos) => {
+                    //console.log(repos.data);
+                    this.totalData = repos.data;
+                    this.searchData = repos.data;    //条件查询数据也是总数据，因为此时没有查询条件
+                    this.searchTotal = this.searchData.length;
+                    this.changeShowPage();
+                    this.progress = 100;
+                    this.isGetall = true    //已经获取所有数据
+                })
+                .catch((error) => {
+                    //alert('axios错误')
+                    console.log(error);
+                });
         },
         getData() {
             this.axios({

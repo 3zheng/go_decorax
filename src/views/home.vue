@@ -2,88 +2,113 @@
     <div class="home">
         <el-container>
             <el-header>
-                <h1 style="text-align: left;margin-bottom: 10px;">数据查询系统</h1>
+                <!--数据查询系统-->
+                <h1 style="text-align: left;margin-bottom: 10px;">Sistema de consulta de datos</h1>
                 <el-breadcrumb separator="/">
-                    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                    <el-breadcrumb-item :to="{ path: '/' }">Inicio</el-breadcrumb-item>
                     <el-breadcrumb-item><a href="/"></a></el-breadcrumb-item>
                 </el-breadcrumb>
             </el-header>
             <el-container>
-                <el-aside width="230px">
+                <el-aside width="265px">
                     <el-menu default-active="1" class="el-menu-vertical-demo" background-color="#545c64"
                         text-color="#fff" active-text-color="#ffd04b" style="text-align: left;">
                         <el-submenu index="1">
                             <template slot="title">
                                 <i class="el-icon-location"></i>
-                                <span>库存</span>
+                                <span>Inventario</span>
                             </template>
                             <template slot="title"></template>
                             <el-menu-item index="1-2">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventorySummary' }" class = "custom-link" active-class="active-link">
-                                        库存概要&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <!--库存总览-->
+                                    <router-link :to="{ name: 'InventorySummary' }" class="custom-link" active-class="active-link">
+                                        Resumen De Inventario&nbsp;
                                     </router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="1-1">
                                 <i class="el-icon-menu"></i>
-                                <router-link :to="{ name: 'Inventory' }" class = "custom-link" active-class="active-link">按ID仓库排序</router-link>
+                                <!--各个仓库库存-->
+                                <router-link :to="{ name: 'Inventory' }" class="custom-link" active-class="active-link">
+                                    Inventario De Cada Almacén
+                                </router-link>
                                 <!--span slot="title">
                                     <router-link :to="{ name: 'Inventory', params: { pr1: 114514, pr2: 'zhendema' } }">按ID仓库排序</router-link>
                                 </span-->
                             </el-menu-item>
                             <el-menu-item index="1-3">
                                 <i class="el-icon-menu"></i>
+                                <!--Santa Cruz库存-->
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventorySCZ' }" class = "custom-link" active-class="active-link">Santa Cruz库存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</router-link>
+                                    <router-link :to="{ name: 'InventorySCZ' }" class="custom-link" active-class="active-link">
+                                        Santa Cruz Inventario&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="1-4">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventoryLPZ' }" class = "custom-link" active-class="active-link">La Paz库存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</router-link>
+                                    <router-link :to="{ name: 'InventoryLPZ' }" class="custom-link"
+                                        active-class="active-link">
+                                        La Paz Inventario&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="1-5">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventoryCBB' }" class = "custom-link" active-class="active-link">Cochabamba库存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</router-link>
+                                    <router-link :to="{ name: 'InventoryCBB' }" class="custom-link"
+                                        active-class="active-link">
+                                        Cochabamba Inventario&nbsp;&nbsp;
+                                    </router-link>
                                 </span>
                             </el-menu-item>
                         </el-submenu>
                         <el-menu-item index="3">
                             <i class="el-icon-menu"></i>
                             <span slot="title">
-                                <router-link :to="{ name: 'Debt' }" class = "custom-link" active-class="active-link">欠款数据&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</router-link>
+                                <router-link :to="{ name: 'Debt' }" class="custom-link" active-class="active-link">
+                                    Detalle De La Deuda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </router-link>
                             </span>
                         </el-menu-item>
                         <el-submenu index="4">
                             <template slot="title">
                                 <i class="el-icon-location"></i>
-                                <span>销售</span>
+                                <span>Venta</span>
                             </template>
                             <template slot="title"></template>
                             <el-menu-item index="4-1">
                                 <i class="el-icon-menu"></i>
-                                <span slot="title">
-                                    <router-link :to="{ name: 'SalesRecord' }" class = "custom-link" active-class="active-link">销售员日销售数据</router-link>
+                                <span slot="title" class="menu-title">
+                                    <!--销售员日销售数据-->
+                                    <router-link :to="{ name: 'SalesRecord' }" class="custom-link" active-class="active-link">
+                                        Datos De Ventas <br>Diarias Del Vendedor
+                                    </router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="4-2">
                                 <i class="el-icon-menu"></i>
-                                <span slot="title">
-                                    <router-link :to="{ name: 'SalesSummary' }" class = "custom-link" active-class="active-link">销售员月销售数据</router-link>
+                                <span slot="title" class="menu-title">
+                                    <!--销售员月销售数据-->
+                                    <router-link :to="{ name: 'SalesSummary' }" class="custom-link" active-class="active-link">
+                                        Datos De Ventas <br>Mensuales Del Vendedor
+                                    </router-link>
                                 </span>
                             </el-menu-item>
                             <el-menu-item index="4-3">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventorySales' }" class = "custom-link" active-class="active-link">产品近30天销量</router-link>
+                                    <!--各产品最近30日销售数据-->
+                                    <router-link :to="{ name: 'InventorySales' }" class="custom-link" active-class="active-link">
+                                        Ventas De Productos En<br>Los últimos 30 Días
+                                    </router-link>
                                 </span>
-                            </el-menu-item>                            
+                            </el-menu-item>
                         </el-submenu>
-                        <el-submenu index="9">
+                        <el-submenu index="9" disabled>
                             <template slot="title">
                                 <i class="el-icon-location"></i>
                                 <span>重要客户</span>
@@ -95,7 +120,7 @@
                         </el-submenu>
                         <el-menu-item index="99" disabled>
                             <i class="el-icon-document"></i>
-                            <span slot="title">占位</span>
+                            <span slot="title"></span>
                         </el-menu-item>
                     </el-menu>
                 </el-aside>
@@ -119,9 +144,35 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .el-breadcrumb {
     padding: 15px;
+}
+
+/*从el-submenu__title到el-menu-item的样式是为了文本内容过长时换行*/
+
+.el-submenu__title {
+  display: flex;
+  align-items: center;
+}
+.el-submenu__title span{
+  white-space: normal;
+  word-break: break-all;
+  line-height: 20px;
+  flex: 1;
+  padding-right: 20px;
+}
+ 
+.el-menu-item {
+  display: flex;
+  align-items: center;
+  padding-right: 20px!important;
+}
+.el-menu-item span {
+  white-space: normal;
+  word-break: break-all;
+  line-height: 20px;
+  flex: 1;
 }
 
 .el-header {
@@ -171,6 +222,7 @@ body>.el-container {
 .custom-link {
     color: white; /* 修改链接颜色 */
     text-decoration: none; /* 去掉下划线 */
+    line-height: 1; /* 根据需要调整行高 */
 }
 
 .active-link {

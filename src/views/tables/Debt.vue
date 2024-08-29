@@ -4,35 +4,44 @@
         <el-form :inline="true" ref="form" :model="form">
             <el-row>
                 <el-col :span="8">
-                    <el-form-item label="模糊查询:">
-                        <el-input placeholder="输入条件" v-model="form.fuzzyQuery"></el-input>
+                    <!--模糊搜索 @keyup.enter.native表示响应回车键-->
+                    <el-form-item label="Buscar:">
+                        <el-input placeholder="Palabras Clave" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
-                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
-                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
+                <el-col :span="6">
+                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">Buscar</el-button>
+                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">Reiniciar</el-button>
                 </el-col>
             </el-row>
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column label="序号" width="60">
+            <!--数据序号-->
+            <el-table-column width="70">
+                <template slot="header">Número<br>de Serie</template>
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="DebtorID" label="欠款人ID" width="80"> </el-table-column>
-            <el-table-column prop="DebtorName" label="欠款人姓名" width="300"></el-table-column>
-            <el-table-column prop="DebtAmount" label="欠款金额" width="80"></el-table-column>
-            <el-table-column prop="OrderFormDate" label="订单日期" width="100"> </el-table-column>
-            <el-table-column prop="DebtDuration" label="欠款天数" width="80"> </el-table-column>
-            <el-table-column prop="SalesmanID" label="销售员ID" width="80"> </el-table-column>
-            <el-table-column prop="Salesman" label="销售员" width="250"> </el-table-column>       
+            <el-table-column prop="DebtorID" label="Deudor ID" width="80"> </el-table-column>
+            <el-table-column prop="DebtorName" label="Nombre del Deudor" width="280"></el-table-column>
+            <el-table-column prop="DebtAmount" width="80">
+                <template slot="header">Monto <br>Adeudado</template>
+            </el-table-column>
+            <el-table-column prop="OrderFormDate" width="100">
+                <template slot="header">Fecha del<br>Pedido</template>
+            </el-table-column>
+            <el-table-column prop="DebtDuration" width="80">
+                <template slot="header">Días de<br>Mora</template>
+            </el-table-column>
+            <el-table-column prop="SalesmanID" label="Vendedor ID" width="80"> </el-table-column>
+            <el-table-column prop="Salesman" label="Nombre del Vendedor" width="195"> </el-table-column>       
         </el-table>
         <!--分页-->
         <el-form :inline="true">
             <el-row style="margin-top: 10px">
                 <el-col :span="8" style="text-align: left; margin-top: 0px">
-                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">上一页</el-button>
-                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">下一页</el-button>
+                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">Página Arriba</el-button>
+                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">Página Abajo</el-button>
                 </el-col>
                 <el-col :span="10" style="text-align: right; margin-top: 0px">
                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"

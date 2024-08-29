@@ -4,25 +4,25 @@
         <el-form :inline="true" ref="form" :model="form">
             <el-row>
                 <el-col :span="8">
-                    <el-form-item label="模糊查询:">
-                        <el-input placeholder="输入条件" v-model="form.fuzzyQuery"></el-input>
+                    <el-form-item label="Buscar:">
+                        <el-input placeholder="Palabras Clave De Entrada" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5">
-                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
-                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
+                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">Buscar</el-button>
+                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">Reiniciar</el-button>
                 </el-col>
             </el-row>
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column label="序号" width="60">
+            <el-table-column label="Número De Serie" width="60">
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
             <el-table-column prop="ID" label="ID" width="100"></el-table-column>
-            <el-table-column prop="Name" label="类名" width="400"></el-table-column>
-            <el-table-column prop="ProductSuperClass" label="大类" width="200"> </el-table-column>
-            <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
+            <el-table-column prop="Name" label="Subcategoría" width="400"></el-table-column>
+            <el-table-column prop="ProductSuperClass" label="Categoría" width="200"> </el-table-column>
+            <el-table-column prop="ResidualNum" label="Cantidad de Inventario(pza)" width="100"> </el-table-column>
             <!--el-table-column prop="InventoryCost" label="库存价值"> </el-table-column-->
             <el-table-column prop="SalesQuantity30days" label="近30天销量"> </el-table-column>
         </el-table>
@@ -30,8 +30,8 @@
         <el-form :inline="true">
             <el-row style="margin-top: 10px">
                 <el-col :span="8" style="text-align: left; margin-top: 0px">
-                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">上一页</el-button>
-                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">下一页</el-button>
+                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">Página Arriba</el-button>
+                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">Página Abajo</el-button>
                 </el-col>
                 <el-col :span="10" style="text-align: right; margin-top: 0px">
                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"

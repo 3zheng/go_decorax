@@ -4,25 +4,28 @@
         <el-form :inline="true" ref="form" :model="form">
             <el-row>
                 <el-col :span="8">
-                    <el-form-item label="模糊查询:">
-                        <el-input placeholder="输入条件" v-model="form.fuzzyQuery"></el-input>
+                    <el-form-item label="Buscar:">
+                        <el-input placeholder="Palabras Clave" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
-                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
-                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
+                <el-col :span="6">
+                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">Buscar</el-button>
+                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">Reiniciar</el-button>
                 </el-col>
             </el-row>
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column label="序号" width="60">
+            <el-table-column  width="70">
+                <template slot="header">Número<br>de Serie</template>
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="ID" label="ID" width="100"></el-table-column>
-            <el-table-column prop="Name" label="类名" width="400"></el-table-column>
-            <el-table-column prop="ProductSuperClass" label="大类" width="200"> </el-table-column>
-            <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
+            <el-table-column prop="ID" label="ID" width="150"></el-table-column>
+            <el-table-column prop="Name" label="Subcategoría" width="350"></el-table-column>
+            <el-table-column prop="ProductSuperClass" label="Categoría" width="200"> </el-table-column>
+            <el-table-column prop="ResidualNum" width="110">
+                <template slot="header">Cantidad de<br>Inventario(pza)</template>
+            </el-table-column>
             <!--el-table-column prop="InventoryCost" label="库存价值"> </el-table-column>
             <el-table-column prop="SalesQuantity30days" label="近30天销量"> </el-table-column-->
         </el-table>
@@ -30,8 +33,8 @@
         <el-form :inline="true">
             <el-row style="margin-top: 10px">
                 <el-col :span="8" style="text-align: left; margin-top: 0px">
-                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">上一页</el-button>
-                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">下一页</el-button>
+                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">Página Arriba</el-button>
+                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">Página Abajo</el-button>
                 </el-col>
                 <el-col :span="10" style="text-align: right; margin-top: 0px">
                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
@@ -76,8 +79,11 @@ export default {
     beforeRouteEnter: (to, from, next) => {
         //alert("进入InventorySummary路由");
         next((vm) => {
+            vm.isGetall = false
             vm.startProgress();
-            vm.getData();
+            //vm.getData();
+            vm.getPartialData();
+            vm.getAllData();
         });
     },
     /*
@@ -98,6 +104,58 @@ export default {
                     }, 1000); // 1秒后隐藏进度条
                 }
             }, 1000); // 每秒增加10%
+        },
+        getPartialData() {
+            this.axios({
+                method: "get",
+                //url: "http://localhost:24686/api/inventory_summary",//后端服务器的实际端口
+                //url: "http://35.203.42.244:31111/api/inventory_summary",  //通过ngnix反向代理
+                url: "http://104.225.234.236:31111/api/inventory_summary", //通过ngnix反向代理
+                params: {
+                    volume: 'partial',
+                }
+            })
+                .then((repos) => {
+                    //如果已经获取了全部数据就直接返回
+                    if (this.isGetall){
+                        return
+                    }
+                    //console.log(repos.data);
+                    this.currentPage = 1;
+                    this.totalData = repos.data;
+                    this.searchData = repos.data;    //条件查询数据也是总数据，因为此时没有查询条件
+                    this.searchTotal = this.searchData.length;
+                    this.changeShowPage();
+                    this.progress = this.progress+20;
+                })
+                .catch((error) => {
+                    //alert('axios错误')
+                    console.log(error);
+                });
+        },
+        getAllData(){
+            this.axios({
+                method: "get",
+                //url: "http://localhost:24686/api/inventory_summary",//后端服务器的实际端口
+                //url: "http://35.203.42.244:31111/api/inventory_summary",  //通过ngnix反向代理
+                url: "http://104.225.234.236:31111/api/inventory_summary", //通过ngnix反向代理
+                params: {
+                    volume: 'all',
+                }
+            })
+                .then((repos) => {
+                    //console.log(repos.data);
+                    this.totalData = repos.data;
+                    this.searchData = repos.data;    //条件查询数据也是总数据，因为此时没有查询条件
+                    this.searchTotal = this.searchData.length;
+                    this.changeShowPage();
+                    this.progress = 100;
+                    this.isGetall = true    //已经获取所有数据
+                })
+                .catch((error) => {
+                    //alert('axios错误')
+                    console.log(error);
+                });
         },
         getData() {
             this.axios({

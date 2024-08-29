@@ -4,41 +4,44 @@
         <el-form :inline="true" ref="form" :model="form">
             <el-row>
                 <el-col :span="8">
-                    <el-form-item label="模糊查询:">
-                        <el-input placeholder="输入条件" v-model="form.fuzzyQuery"></el-input>
+                    <el-form-item label="Buscar:">
+                        <el-input placeholder="Palabras Clave De Entrada" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
-                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
-                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
+                <el-col :span="6">
+                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">Buscar</el-button>
+                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">Reiniciar</el-button>
                 </el-col>
-                <el-col :span="11">
-                    <el-form-item label="精准查询:">
-                        <el-input placeholder="产品ID" v-model="form.ID" style="width: 130px;"></el-input>
+                <el-col :span="10">
+                    <el-form-item label="Búsqueda Precisa:">
+                        <el-input placeholder="Producto ID" v-model="form.ID" style="width: 105px;"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-input placeholder="仓库名" v-model="form.WarehouseName" style="width: 200px;"></el-input>
+                        <el-input placeholder="Almacén Nombre" class="custom-input" v-model="form.WarehouseName" style="width: 140px;"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column label="序号" width="60">
+            <el-table-column label="Número De Serie" width="70">
+                <template slot="header">Número<br>de Serie</template>
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
             <el-table-column prop="ID" label="ID" width="160"></el-table-column>
-            <el-table-column prop="Name" label="类名" width="350"></el-table-column>
-            <el-table-column prop="ProductSuperClass" label="大类" width="150"> </el-table-column>
-            <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
-            <el-table-column prop="WarehouseName" label="仓库名" width="180"> </el-table-column>
+            <el-table-column prop="Name" label="Subcategoría" width="300"></el-table-column>
+            <el-table-column prop="ProductSuperClass" label="Categoría" width="150"> </el-table-column>
+            <el-table-column prop="ResidualNum" width="110">
+                <template slot="header">Cantidad de<br>Inventario(pza)</template>
+            </el-table-column>
+            <el-table-column prop="WarehouseName" label="Almacén Nombre" width="180"> </el-table-column>
         </el-table>
         <!--分页-->
         <el-form :inline="true">
             <el-row style="margin-top: 10px">
                 <el-col :span="8" style="text-align: left; margin-top: 0px">
-                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">上一页</el-button>
-                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">下一页</el-button>
+                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">Página Arriba</el-button>
+                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">Página Abajo</el-button>
                 </el-col>
                 <el-col :span="10" style="text-align: right; margin-top: 0px">
                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
@@ -136,7 +139,7 @@ export default {
                     this.searchData = repos.data;    //条件查询数据也是总数据，因为此时没有查询条件
                     this.searchTotal = this.searchData.length;
                     this.changeShowPage();
-                    this.progress = 20;
+                    this.progress += 20;
                 })
                 .catch((error) => {
                     //alert('axios错误')
@@ -271,4 +274,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+
+.custom-input.el-input__inner {
+  font-size: 14px; /* 根据需要调整字体大小 */
+}
+
+</style>

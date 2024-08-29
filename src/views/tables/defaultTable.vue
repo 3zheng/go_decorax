@@ -7,21 +7,26 @@
         <div ref="trapezoidChartLPZ" style="width: 800px; height: 400px; margin-top: 30px;"></div>
         <div ref="trapezoidChartSCZ" style="width: 800px; height: 400px; margin-top: 30px;"></div>
         <!--表格1-->
-        <h3>欠款概要</h3>
+        <h3>Resumen de Atrasos</h3>
         <el-table :data="showDataDebt" border style="width: 100%" size="mini">
-            <el-table-column label="序号" width="60">
+            <el-table-column width="70">
+                <template slot="header">Número<br>de Serie</template>
                 <template slot-scope="scope">{{ (currentPageDebt - 1) * pageSizeDebt + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="Salesman" label="销售员" width="250"> </el-table-column>
-            <el-table-column prop="DebtAmount" label="欠款总金额" width="100"></el-table-column>
-            <el-table-column prop="DebtNum" label="欠款笔数" width="80"> </el-table-column>
+            <el-table-column prop="Salesman" label="Nombre del Vendedor" width="250"> </el-table-column>
+            <el-table-column prop="DebtAmount" width="100">
+                <template slot="header">Monto Total<br>Adeudado</template>
+            </el-table-column>
+            <el-table-column prop="DebtNum" width="160">
+                <template slot="header">Número de<br>Facturas Adeudadas</template>
+            </el-table-column>
         </el-table>
         <!--分页-->
         <el-form :inline="true">
             <el-row style="margin-top: 10px">
                 <el-col :span="8" style="text-align: left; margin-top: 0px">
-                    <el-button type="primary" icon="el-icon-back" @click="onPageUpDebt">上一页</el-button>
-                    <el-button type="primary" icon="el-icon-right" @click="onPageDownDebt">下一页</el-button>
+                    <el-button type="primary" icon="el-icon-back" @click="onPageUpDebt">Página Arriba</el-button>
+                    <el-button type="primary" icon="el-icon-right" @click="onPageDownDebt">Página Abajo</el-button>
                 </el-col>
                 <el-col :span="10" style="text-align: right; margin-top: 0px">
                     <el-pagination @size-change="handleSizeChangeDebt" @current-change="handleCurrentChangeDebt"
@@ -32,22 +37,27 @@
                 <el-col :span="2"> </el-col>
             </el-row>
         </el-form>
-        <h3>销售员日销售数据</h3>
+        <h3>Datos de Ventas Diarias del Vendedor</h3>
         <el-table :data="showDataSales" border style="width: 100%" size="mini">
-            <el-table-column label="序号" width="60">
+            <el-table-column width="70">
+                <template slot="header">Número<br>de Serie</template>
                 <template slot-scope="scope">{{ (currentPageSales - 1) * pageSizeSales + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="Name" label="销售员姓名" width="250"> </el-table-column>
-            <el-table-column prop="SalesDate" label="销售日期" width="100"></el-table-column>
-            <el-table-column prop="SalesAmount" label="销售金额" width="120"></el-table-column>            
-            <el-table-column prop="OrderFormNum" label="订单数量" width="80"> </el-table-column>
+            <el-table-column prop="Name" label="Nombre del Vendedor" width="250"></el-table-column>
+            <el-table-column prop="SalesDate" label="Fecha de Venta" width="100">
+                <template slot="header">Fecha de<br> Venta</template>
+            </el-table-column>
+            <el-table-column prop="SalesAmount" label="Monto de Ventas" width="120"></el-table-column>            
+            <el-table-column prop="OrderFormNum" label="Número de Pedidos" width="90">
+                <template slot="header">Número de<br> Pedidos</template>
+            </el-table-column>
         </el-table>
         <!--分页-->
         <el-form :inline="true">
             <el-row style="margin-top: 10px">
                 <el-col :span="8" style="text-align: left; margin-top: 0px">
-                    <el-button type="primary" icon="el-icon-back" @click="onPageUpSales">上一页</el-button>
-                    <el-button type="primary" icon="el-icon-right" @click="onPageDownSales">下一页</el-button>
+                    <el-button type="primary" icon="el-icon-back" @click="onPageUpSales">Página Arriba</el-button>
+                    <el-button type="primary" icon="el-icon-right" @click="onPageDownSales">Página Abajo</el-button>
                 </el-col>
                 <el-col :span="10" style="text-align: right; margin-top: 0px">
                     <el-pagination @size-change="handleSizeChangeSales" @current-change="handleCurrentChangeSales"
@@ -250,14 +260,10 @@ export default {
                 salesman.push(item['Salesman']);
                 salesData.push(obj)
             })
-            let data = [
-                { value: 335, name: '直接访问' },
-                { value: 310, name: '邮件营销' }
-            ];
             // 指定图表的配置项和数据
             const option = {
                 title: {
-                    text: '欠款总览',
+                    text: 'Resumen de Atrasos',
                     x: 'center'
                 },
                 tooltip: {
@@ -284,7 +290,7 @@ export default {
                 },
                 series: [
                     {
-                        name: '销售员',
+                        name: 'Vendedor',   //销售员
                         type: 'pie',
                         radius: '65%',
                         center: ['68%', '50%'],
@@ -305,7 +311,7 @@ export default {
         initTrapezoidChart() {
             const trapezoidChart = echarts.init(this.$refs.trapezoidChart);
             const current = moment().format('YYYY-MM-DD');
-            const titleName = current + '销售数据';
+            const titleName = 'Datos de Ventas de Hoy '+ current;
             const salesName = [];
             const salesAmount = [];
             this.totalDataSales.forEach(item => {
@@ -363,7 +369,7 @@ export default {
             //Cochabamba的当月销售额
             const trapezoidChart = echarts.init(this.$refs.trapezoidChartCBB);
             const current = moment().format('YYYY-MM');
-            const titleName = 'Cochabamba ' + current + '销售额';
+            const titleName = 'Cochabamba ' + 'ingresos por ventas del mes actual ' + current;
             const salesDates = [];
             const salesAmount = [];
             let salesDayAmount = 0;
@@ -432,7 +438,7 @@ export default {
             //LPZ的当月销售数据
             const trapezoidChart = echarts.init(this.$refs.trapezoidChartLPZ);
             const current = moment().format('YYYY-MM');
-            const titleName = 'La Paz ' + current + '销售额';
+            const titleName = 'La Paz ' + 'ingresos por ventas del mes actual ' + current;
             const salesDates = [];
             const salesAmount = [];
             let salesDayAmount = 0;
@@ -499,7 +505,7 @@ export default {
         initTrapezoidChartSCZ() {
             const trapezoidChart = echarts.init(this.$refs.trapezoidChartSCZ);
             const current = moment().format('YYYY-MM');
-            const titleName = 'Santa Cruz ' + current + '销售额';
+            const titleName = 'Santa Cruz ' + 'ingresos por ventas del mes actual ' + current;
             const salesDates = [];
             const salesAmount = [];
             let salesDayAmount = 0;

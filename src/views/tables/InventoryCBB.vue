@@ -4,28 +4,33 @@
         <el-form :inline="true" ref="form" :model="form">
             <el-row>
                 <el-col :span="8">
-                    <el-form-item label="模糊查询:">
-                        <el-input placeholder="输入条件" v-model="form.fuzzyQuery"></el-input>
+                    <el-form-item label="Buscar:">
+                        <el-input placeholder="Palabras Clave" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="8">
-                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">搜索</el-button>
-                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">重置</el-button>
-                    <el-button type="warning" icon="el-icon-info" @click="onLack">库存不足</el-button>
+                <el-col :span="12">
+                    <el-button type="primary" icon="el-icon-search" @click="onSubmit">Buscar</el-button>
+                    <el-button type="primary" icon="el-icon-s-order" @click="onReset">Reiniciar</el-button>
+                    <el-button type="warning" icon="el-icon-info" @click="onLack">Falta de Existencias</el-button>
                 </el-col>
             </el-row>
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column label="序号" width="60">
+            <el-table-column  width="70">
+                <template slot="header">Número<br>de Serie</template>
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="ID" label="ID" width="140"></el-table-column>
-            <el-table-column prop="SalesQuantity180days" label="月均销量" width="100" :formatter="formatResidualNum"> </el-table-column>
-            <el-table-column prop="ResidualNum" label="库存量(pza)" width="100"> </el-table-column>
-            <el-table-column prop="Name" label="类名" width="300"></el-table-column>
-            <el-table-column prop="ProductSuperClass" label="大类" width="150"> </el-table-column>
-            <el-table-column prop="Descrption" label="产品描述" width="320"> </el-table-column>          
+            <el-table-column prop="ID" label="ID" width="165"></el-table-column>
+            <el-table-column prop="SalesQuantity180days" label="月均销量" width="100" :formatter="formatResidualNum">
+                <template slot="header">Ventas<br>Mensuales<br>Promedio</template>
+            </el-table-column>
+            <el-table-column prop="ResidualNum"  width="100">
+                <template slot="header">Cantidad de<br>Inventario<br>(pza)</template>
+            </el-table-column>
+            <el-table-column prop="Name" label="Subcategoría" width="300"></el-table-column>
+            <el-table-column prop="ProductSuperClass" label="Categoría" width="150"> </el-table-column>
+            <el-table-column prop="Descrption" label="Descripción del Producto" width="450"> </el-table-column>          
             <!--el-table-column prop="InventoryCost" label="库存价值"> </el-table-column>
             <el-table-column prop="SalesQuantity30days" label="近30天销量"> </el-table-column-->
         </el-table>
@@ -33,8 +38,8 @@
         <el-form :inline="true">
             <el-row style="margin-top: 10px">
                 <el-col :span="8" style="text-align: left; margin-top: 0px">
-                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">上一页</el-button>
-                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">下一页</el-button>
+                    <el-button type="primary" icon="el-icon-back" @click="onPageUp">Página Arriba</el-button>
+                    <el-button type="primary" icon="el-icon-right" @click="onPageDown">Página Abajo</el-button>
                 </el-col>
                 <el-col :span="10" style="text-align: right; margin-top: 0px">
                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
