@@ -22,6 +22,7 @@
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
             <el-table-column prop="Salesman" label="销售员姓名" width="250">
+                <!--使用template slot="header" 可以覆盖el-table-column label里的内容-->
                 <template slot="header">Nombre del Vendedor</template>
             </el-table-column>
             <el-table-column prop="SalesAmount" label="销售总额" width="120">

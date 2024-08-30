@@ -12,6 +12,7 @@ import defaultTable from '@/views/tables/defaultTable.vue'
 import InventoryCBB from '@/views/tables/InventoryCBB.vue'
 import InventoryLPZ from '@/views/tables/InventoryLPZ.vue'
 import InventorySCZ from '@/views/tables/InventorySCZ.vue'
+import Login from '@/views/Login.vue'
 
 
 Vue.use(VueRouter)
@@ -22,6 +23,11 @@ const routes = [
     path: '/vuehome',
     name: 'vuehome',
     component: HomeView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
   },
   {
     path: '/',
