@@ -9,7 +9,7 @@
                         <el-input placeholder="Palabras Clave" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                     <el-button type="primary" icon="el-icon-search" @click="onSubmit">Buscar</el-button>
                     <el-button type="primary" icon="el-icon-s-order" @click="onReset">Reiniciar</el-button>
                 </el-col>
@@ -17,13 +17,20 @@
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column label="Número De Serie" width="60">
+            <el-table-column label="Número De Serie" width="70">
+                <template slot="header">Número<br>de Serie</template>
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="Salesman" label="销售员姓名" width="250"> </el-table-column>
-            <el-table-column prop="SalesAmount" label="销售总额" width="120"></el-table-column>            
-            <el-table-column prop="OrderFormNum" label="Número de Pedidos" width="80"> </el-table-column>
-            <el-table-column prop="SalesMonth" label="月份" width="100"> </el-table-column>
+            <el-table-column prop="Salesman" label="销售员姓名" width="250">
+                <template slot="header">Nombre del Vendedor</template>
+            </el-table-column>
+            <el-table-column prop="SalesAmount" label="销售总额" width="120">
+                <template slot="header">Ventas Totales</template>
+            </el-table-column>            
+            <el-table-column prop="OrderFormNum" label="Número de Pedidos" width="90"> 
+                <template slot="header">Número de<br> Pedidos</template>
+            </el-table-column>
+            <el-table-column prop="SalesMonth" label="Mes" width="100"> </el-table-column>
         </el-table>
         <!--分页-->
         <el-form :inline="true">

@@ -6,19 +6,19 @@
             <el-row>
                 <el-col :span="8">
                     <el-form-item label="Buscar:">
-                        <el-input placeholder="Palabras Clave De Entrada" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
+                        <el-input placeholder="Palabras Clave" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                     <el-button type="primary" icon="el-icon-search" @click="onSubmit">Buscar</el-button>
                     <el-button type="primary" icon="el-icon-s-order" @click="onReset">Reiniciar</el-button>
                 </el-col>
-                <el-col :span="11">
+                <el-col :span="10">
                     <!--日期选择器-->
                     <div class="block">
                         <!--span class="demonstration">带快捷选项</span-->
                         <el-date-picker v-model="dateValue" value-format="yyyy-MM-dd" type="daterange" align="right" unlink-panels
-                            range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                            range-separator="a" start-placeholder="Inicio Fecha" end-placeholder="Finalización Fecha"
                             :picker-options="pickerOptions" @change="onSubmitDate">
                         </el-date-picker>
                     </div>
@@ -27,13 +27,20 @@
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column label="Número De Serie" width="60">
+            <el-table-column label="Número De Serie" width="70">
+                <template slot="header">Número<br>de Serie</template>
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
-            <el-table-column prop="Name" label="销售员姓名" width="250"> </el-table-column>
-            <el-table-column prop="SalesDate" label="Fecha De Venta" width="100"></el-table-column>
-            <el-table-column prop="SalesAmount" label="Monto De Ventas" width="120"></el-table-column>
-            <el-table-column prop="OrderFormNum" label="Número de Pedidos" width="80"> </el-table-column>
+            <el-table-column prop="Name" label="销售员姓名" width="250">
+                <template slot="header">Nombre del Vendedor</template>
+            </el-table-column>
+            <el-table-column prop="SalesDate" label="销售日期" width="100">
+                <template slot="header">Fecha de<br>Venta</template>
+            </el-table-column>
+            <el-table-column prop="SalesAmount" label="Monto de Ventas" width="120"></el-table-column>
+            <el-table-column prop="OrderFormNum" label="Número de Pedidos" width="90">
+                <template slot="header">Número de<br>Pedidos</template>
+            </el-table-column>
         </el-table>
         <!--分页-->
         <el-form :inline="true">
@@ -83,7 +90,7 @@ export default {
             //日期选择器
             pickerOptions: {    //快捷选项
                 shortcuts: [{
-                    text: '最近一周',
+                    text: 'la última semana',   //最近一周
                     onClick(picker) {
                         const end = new Date();
                         const start = new Date();
@@ -92,7 +99,7 @@ export default {
                     }
                 }, 
                 {
-                    text: '最近一个月',
+                    text: 'el ultimo mes', //最近一个月
                     onClick(picker) {
                         const end = new Date();
                         const start = new Date();

@@ -5,10 +5,10 @@
             <el-row>
                 <el-col :span="8">
                     <el-form-item label="Buscar:">
-                        <el-input placeholder="Palabras Clave De Entrada" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
+                        <el-input placeholder="Palabras Clave" v-model="form.fuzzyQuery" @keyup.enter.native="onSubmit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5">
+                <el-col :span="6">
                     <el-button type="primary" icon="el-icon-search" @click="onSubmit">Buscar</el-button>
                     <el-button type="primary" icon="el-icon-s-order" @click="onReset">Reiniciar</el-button>
                 </el-col>
@@ -16,15 +16,20 @@
         </el-form>
         <!--表格-->
         <el-table :data="showData" border style="width: 100%" size="mini">
-            <el-table-column label="Número De Serie" width="60">
+            <el-table-column label="Número De Serie" width="70">
+                <template slot="header">Número<br>de Serie</template>
                 <template slot-scope="scope">{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</template>
             </el-table-column>
             <el-table-column prop="ID" label="ID" width="100"></el-table-column>
-            <el-table-column prop="Name" label="Subcategoría" width="400"></el-table-column>
+            <el-table-column prop="Name" label="Subcategoría" width="360"></el-table-column>
             <el-table-column prop="ProductSuperClass" label="Categoría" width="200"> </el-table-column>
-            <el-table-column prop="ResidualNum" label="Cantidad de Inventario(pza)" width="100"> </el-table-column>
+            <el-table-column prop="ResidualNum" label="Cantidad de Inventario(pza)" width="100"> 
+                <template slot="header">Cantidad de<br> Inventario<br>(pza)</template>
+            </el-table-column>
             <!--el-table-column prop="InventoryCost" label="库存价值"> </el-table-column-->
-            <el-table-column prop="SalesQuantity30days" label="近30天销量"> </el-table-column>
+            <el-table-column prop="SalesQuantity30days" label="近30天销量" width="120"> 
+                <template slot="header">Cantidad de<br>ventas en los<br>últimos 30 días.</template>
+            </el-table-column>
         </el-table>
         <!--分页-->
         <el-form :inline="true">
