@@ -111,7 +111,8 @@ export default {
                 method: "get",
                 //url: "http://localhost:24686/api/inventory_city",   //后端服务器的实际端口
                 //url: "http://35.203.42.244:31111/api/inventory_city",  //通过ngnix反向代理
-                url: "http://104.225.234.236:31111/api/inventory_city", //通过ngnix反向代理
+                //url: "http://104.225.234.236:31111/api/inventory_city", //通过ngnix反向代理
+                url: "/api/inventory_city", //通过ngnix反向代理
                 params: {
                     city: 'CBB',
                 },
