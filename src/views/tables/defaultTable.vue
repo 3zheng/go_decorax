@@ -230,7 +230,7 @@ export default {
             }           
         },
         onPageDownDebt(){
-            alert(`currentPageDebt=${this.currentPageDebt}, pageSizeDebt=${this.pageSizeDebt}`)
+            //alert(`currentPageDebt=${this.currentPageDebt}, pageSizeDebt=${this.pageSizeDebt}`)
             if (this.currentPageDebt * this.pageSizeDebt < this.searchTotalDebt){
                 this.handleCurrentChangeDebt(this.currentPageDebt+1)
             }
@@ -384,7 +384,7 @@ export default {
                     if (mapSales.has(itemDate)){ //存在键值对
                         salesDayAmount = mapSales.get(itemDate);
                         if (typeof(item['SalesAmount']) !== 'number'){
-                            alert(`type is ${typeof(item['SalesAmount'])}, value = ${item['SalesAmount']}`)
+                            console.log(`type is ${typeof(item['SalesAmount'])}, value = ${item['SalesAmount']}`)
                         }
                         salesDayAmount = salesDayAmount + (item['SalesAmount']);   //保留小数点后两位
                         mapSales.set(itemDate, (salesDayAmount));
@@ -453,7 +453,7 @@ export default {
                     if (mapSales.has(itemDate)){ //存在键值对
                         salesDayAmount = mapSales.get(itemDate);
                         if (typeof(item['SalesAmount']) !== 'number'){
-                            alert(`type is ${typeof(item['SalesAmount'])}, value = ${item['SalesAmount']}`)
+                            console.log(`type is ${typeof(item['SalesAmount'])}, value = ${item['SalesAmount']}`)
                         }
                         salesDayAmount = salesDayAmount + (item['SalesAmount']);   //保留小数点后两位
                         mapSales.set(itemDate, (salesDayAmount));
@@ -520,7 +520,7 @@ export default {
                     if (mapSales.has(itemDate)){ //存在键值对
                         salesDayAmount = mapSales.get(itemDate);
                         if (typeof(item['SalesAmount']) !== 'number'){
-                            alert(`type is ${typeof(item['SalesAmount'])}, value = ${item['SalesAmount']}`)
+                            console.log(`type is ${typeof(item['SalesAmount'])}, value = ${item['SalesAmount']}`)
                         }
                         salesDayAmount = salesDayAmount + (item['SalesAmount']);   //保留小数点后两位
                         mapSales.set(itemDate, (salesDayAmount));

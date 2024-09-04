@@ -23,7 +23,6 @@ if (browserLanguage.startsWith('zh')) {
   lang = esLocale
 }else{
   lang = enLocale
-  sessionStorage;
 }
 
 Vue.config.productionTip = false;

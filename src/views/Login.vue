@@ -1,18 +1,18 @@
 <template>
     <div>
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="login-box">
-            <el-form-item label="密码" prop="pass">
-                <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+            <el-form-item label="User Name" prop="userName">
+                <!--el-input v-model.number="ruleForm.age"></el-input-->
+                <el-input v-model.number="ruleForm.userName"></el-input>
             </el-form-item>
-            <el-form-item label="确认密码" prop="checkPass">
-                <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="年龄" prop="age">
-                <el-input v-model.number="ruleForm.age"></el-input>
+            <el-form-item label="Password" prop="passwd">
+                <el-input type="password" v-model="ruleForm.passwd" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-button type="primary" class="my-button" @click="submitForm('ruleForm')">
+                  &nbsp;&nbsp;&nbsp;LOGIN&nbsp;&nbsp;&nbsp;
+                </el-button>
+                <!--el-button @click="resetForm('ruleForm')">重置</el-button-->
             </el-form-item>
         </el-form>
     </div>
@@ -48,27 +48,14 @@ export default {
           callback();
         }
       };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.pass) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
       return {
         ruleForm: {
           pass: '',
-          checkPass: '',
-          age: ''
+          userName: '',
         },
         rules: {
           pass: [
             { validator: validatePass, trigger: 'blur' }
-          ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur' }
           ],
           age: [
             { validator: checkAge, trigger: 'blur' }
@@ -96,15 +83,19 @@ export default {
 
 <style scoped>
 .login-box {
-    width: 350px;
-    margin: 120px auto;
+    width: 400px;
+    margin: 100px auto;
     border: 1px solid #DCDFE6;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 30px #DCDFE6;
+    box-shadow: 0 0 30px #EBEEF5;
 }
 
 .login-title {
     text-align: center;
+}
+
+.my-button {
+  width: 250px;
 }
 </style>
