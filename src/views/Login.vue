@@ -23,20 +23,23 @@ export default {
     name: 'login',
     data(){
         var checkAge = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('年龄不能为空'));
-        }
-        setTimeout(() => {
-          if (!Number.isInteger(value)) {
-            callback(new Error('请输入数字值'));
-          } else {
-            if (value < 18) {
-              callback(new Error('必须年满18岁'));
-            } else {
-              callback();
-            }
+          if (!value) {
+            return callback(new Error('用户名不能为空'));
           }
-        }, 1000);
+          /*
+          setTimeout(() => {
+            if (!Number.isInteger(value)) {
+              callback(new Error('请输入数字值'));
+            } else {
+              if (value < 18) {
+                callback(new Error('必须年满18岁'));
+              } else {
+                callback();
+              }
+            }
+          }, 1000);
+          */
+         callback();
       };
       var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -50,14 +53,14 @@ export default {
       };
       return {
         ruleForm: {
-          pass: '',
+          passwd: '',
           userName: '',
         },
         rules: {
-          pass: [
+          passwd: [
             { validator: validatePass, trigger: 'blur' }
           ],
-          age: [
+          userName: [
             { validator: checkAge, trigger: 'blur' }
           ]
         }
@@ -68,6 +71,27 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
+            this.axios({
+                method: "post",
+                //url: "http://localhost:24686/api/login",   //后端服务器的实际端口
+                //url: "http://104.225.234.236:31111/api/login", //通过ngnix反向代理
+                url:"/api/login",
+                params: {
+                    userName: this.formName.userName,
+                    password: this.formName,passwd,
+                },
+            })
+                .then((repos) => {
+                    //console.log(repos.data);
+                    this.totalData = repos.data;
+                    this.searchData = repos.data;
+                    this.searchTotal = this.searchData.length;
+                    this.changeShowPage()
+                    this.progress = 100;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
           } else {
             console.log('error submit!!');
             return false;

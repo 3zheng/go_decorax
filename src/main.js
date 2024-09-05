@@ -21,7 +21,7 @@ if (browserLanguage.startsWith('zh')) {
   lang = zhLocale
 } else if (browserLanguage.startsWith('es')) {
   lang = esLocale
-}else{
+} else {
   lang = enLocale
 }
 
@@ -31,6 +31,9 @@ locale.use(lang)
 Vue.prototype.axios = axios;
 Vue.use(Vuex)
 
+router.beforeEach((to,from,next)=>{
+  let isLogin = sessionStorage.getItem('isLogin')
+})
 
 new Vue({
   router,
