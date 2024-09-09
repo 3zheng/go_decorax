@@ -3,7 +3,7 @@
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="login-box">
             <el-form-item label="User Name" prop="userName">
                 <!--el-input v-model.number="ruleForm.age"></el-input-->
-                <el-input v-model.number="ruleForm.userName"></el-input>
+                <el-input v-model="ruleForm.userName"></el-input>
             </el-form-item>
             <el-form-item label="Password" prop="passwd">
                 <el-input type="password" v-model="ruleForm.passwd" autocomplete="off"></el-input>
@@ -45,9 +45,11 @@ export default {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
+          /*
           if (this.ruleForm.checkPass !== '') {
             this.$refs.ruleForm.validateField('checkPass');
           }
+          */
           callback();
         }
       };
@@ -77,17 +79,20 @@ export default {
                 //url: "http://104.225.234.236:31111/api/login", //通过ngnix反向代理
                 url:"/api/login",
                 params: {
-                    userName: this.formName.userName,
-                    password: this.formName,passwd,
+                    userName: this.ruleForm.userName,
+                    password: this.ruleForm.passwd,
                 },
             })
                 .then((repos) => {
                     //console.log(repos.data);
-                    this.totalData = repos.data;
-                    this.searchData = repos.data;
-                    this.searchTotal = this.searchData.length;
-                    this.changeShowPage()
-                    this.progress = 100;
+                    alert('收到回复')
+                    let data = repos.data;
+                    if (data.success == 'true'){
+                      alert("成功")
+                      this.$router.push({ name: 'InventorySummary' })
+                    }else if(data.success == 'false'){
+                      alert("失败")
+                    }
                 })
                 .catch((error) => {
                     console.log(error);

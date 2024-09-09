@@ -31,9 +31,11 @@ locale.use(lang)
 Vue.prototype.axios = axios;
 Vue.use(Vuex)
 
+/*
 router.beforeEach((to,from,next)=>{
   let isLogin = sessionStorage.getItem('isLogin')
 })
+*/
 
 new Vue({
   router,

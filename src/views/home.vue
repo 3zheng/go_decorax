@@ -50,8 +50,7 @@
                             <el-menu-item index="1-4">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventoryLPZ' }" class="custom-link"
-                                        active-class="active-link">
+                                    <router-link :to="{ name: 'InventoryLPZ' }" class="custom-link" active-class="active-link">
                                         La Paz Inventario&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     </router-link>
                                 </span>
@@ -59,8 +58,7 @@
                             <el-menu-item index="1-5">
                                 <i class="el-icon-menu"></i>
                                 <span slot="title">
-                                    <router-link :to="{ name: 'InventoryCBB' }" class="custom-link"
-                                        active-class="active-link">
+                                    <router-link :to="{ name: 'InventoryCBB' }" class="custom-link" active-class="active-link">
                                         Cochabamba Inventario&nbsp;&nbsp;
                                     </router-link>
                                 </span>
