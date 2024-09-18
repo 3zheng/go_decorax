@@ -175,7 +175,8 @@ export default {
                 method: "get",
                 //url: "http://localhost:24686/api/sales_record",//后端服务器的实际端口
                 //url: "http://35.203.42.244:31111/api/sales_record",  //通过ngnix反向代理
-                url: "http://104.225.234.236:31111/api/sales_record", //通过ngnix反向代理
+                //url: "http://104.225.234.236:31111/api/sales_record", //通过ngnix反向代理
+                url:"/api/sales_record",
                 params: {
                     volume: 'all',
                 }
@@ -188,6 +189,11 @@ export default {
                     this.changeShowPage();
                     this.progress = 100;
                     this.isGetall = true    //已经获取所有数据
+                    //异步执行去空格函数,数据量大使用异步函数
+                    (async () => {
+                        this.totalData = await this.$removeArrayExtraSpaces(this.totalData);
+                        console.log('已执行异步去空格函数')
+                    })();
                 })
                 .catch((error) => {
                     //alert('axios错误')
@@ -203,8 +209,8 @@ export default {
             })
                 .then((repos) => {
                     //console.log(repos.data);
-                    this.totalData = repos.data
-                    this.searchData = repos.data;
+                    this.totalData = this.$removeExtraSpaces(repos.data);   //去两个以上的重复空格
+                    this.searchData = this.$removeExtraSpaces(repos.data);   //去两个以上的重复空格
                     this.searchTotal = this.searchData.length;
                     this.changeShowPage();
                     this.progress = 100;
@@ -232,13 +238,17 @@ export default {
         },
         onSubmit() {
             //alert("提交搜索表单")
-            var fuzzy = this.form.fuzzyQuery.trim()
+            var fuzzy = this.form.fuzzyQuery.trim().toLowerCase()
             if (fuzzy != '') {
                 //模糊查询
                 this.searchData = [];
                 this.totalData.forEach(item => {
                     for (let key in item){
-                        if(item[key] == fuzzy){
+                        let value = item[key];
+                        if (typeof value == 'string'){
+                            value = value.trim().toLowerCase();
+                        }
+                        if (value == fuzzy) {
                             this.searchData.push(item);
                             break;
                         }

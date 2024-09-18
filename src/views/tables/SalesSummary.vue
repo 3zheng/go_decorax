@@ -116,11 +116,17 @@ export default {
             })
                 .then((repos) => {
                     //console.log(repos.data);
-                    this.totalData = repos.data
-                    this.searchData = repos.data;
+                    this.totalData = repos.data;   //去两个以上的重复空格
+                    this.searchData = repos.data;   //去两个以上的重复空格
                     this.searchTotal = this.searchData.length;
                     this.changeShowPage();
                     this.progress = 100;
+                    //异步执行去多余空格函数
+                    /*
+                    (async () => {
+                        await this.$removeArrayExtraSpaces(this.totalData)
+                    })();
+                    */
                 })
                 .catch((error) => {
                     //alert('axios错误')
@@ -146,13 +152,17 @@ export default {
         },
         onSubmit() {
             //alert("提交搜索表单")
-            var fuzzy = this.form.fuzzyQuery.trim()
+            var fuzzy = this.form.fuzzyQuery.trim().toLowerCase()
             if (fuzzy != '') {
                 //模糊查询
                 this.searchData = [];
                 this.totalData.forEach(item => {
                     for (let key in item){
-                        if(item[key] == fuzzy){
+                        let value = item[key];
+                        if (typeof value == 'string'){
+                            value = value.trim().toLowerCase();
+                        }
+                        if (value == fuzzy) {
                             this.searchData.push(item);
                             break;
                         }

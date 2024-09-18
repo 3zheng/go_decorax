@@ -67,6 +67,7 @@ export default {
                 {color: '#e6a23c', percentage: 80},  //橙色
                 {color: '#67c23a', percentage: 100},    //绿色
             ],
+            isGetall: false,
             totalData:[],   //所有数据
             searchData: [],  //根据条件筛选后数据集
             searchTotal: 0,   //根据条件筛选后的数据个数
@@ -152,7 +153,20 @@ export default {
                     this.searchTotal = this.searchData.length;
                     this.changeShowPage();
                     this.progress = 100;
-                    this.isGetall = true    //已经获取所有数据
+                    this.isGetall = true;    //已经获取所有数据
+                    //异步执行去空格函数
+                    (async () => {
+                        this.totalData = await this.$removeArrayExtraSpaces(this.totalData);
+                        console.log('已执行异步去空格函数')
+                    })();
+                    /*
+                    //这是同步的去空格函数
+                    this.totalData.forEach(item => {    //去除多余空格
+                        for (let key in item){ 
+                            item[key] = this.$removeExtraSpaces(item[key])
+                        }
+                    })
+                    */
                 })
                 .catch((error) => {
                     //alert('axios错误')
@@ -164,7 +178,8 @@ export default {
                 method: "get",
                 //url: "http://localhost:24686/api/inventory_summary",   //后端服务器的实际端口
                 //url: "http://35.203.42.244:31111/api/inventory_summary",  //通过ngnix反向代理
-                url: "http://104.225.234.236:31111/api/inventory_summary", //通过ngnix反向代理
+                //url: "http://104.225.234.236:31111/api/inventory_summary", //通过ngnix反向代理
+                url:"/api/inventory_summary",
             })
                 .then((repos) => {
                     //console.log(repos.data);
@@ -192,19 +207,24 @@ export default {
         changeShowPage(){
             var start = (this.currentPage-1)*this.pageSize;
             var end = (this.currentPage-1)*this.pageSize + this.pageSize;
-            var str = "start="+ start+ " end="+ end
+            var str = "start="+ start+ " end="+ end;
             console.log(str);
             this.showData = this.searchData.slice(start, end);
         },
         onSubmit() {
             //alert("提交搜索表单")
-            var fuzzy = this.form.fuzzyQuery.trim()
+            var fuzzy = this.form.fuzzyQuery.trim().toLowerCase();
             if (fuzzy != '') {
                 //模糊查询
                 this.searchData = [];
                 this.totalData.forEach(item => {
                     for (let key in item){
-                        if(item[key] == fuzzy){
+                        let value = item[key];
+                        if (typeof value == 'string'){
+                            value = value.trim().toLowerCase();
+                        }
+                        if (value == fuzzy) {
+                            //console.log(`找到数据：${item}`)
                             this.searchData.push(item);
                             break;
                         }
@@ -214,19 +234,19 @@ export default {
                 //全部条件都为空，那么把
                 this.searchData = this.totalData;
             }
-            this.searchTotal = this.searchData.length
+            this.searchTotal = this.searchData.length;
             this.currentPage = 1;
             this.changeShowPage();
         },
         onReset() {
             this.searchData = this.totalData;
-            this.searchTotal = this.searchData.length
+            this.searchTotal = this.searchData.length;
             this.currentPage = 1;
             this.changeShowPage();
         },
         onPageUp(){
             if (this.currentPage > 1){
-                this.handleCurrentChange(this.currentPage-1)
+                this.handleCurrentChange(this.currentPage-1);
             }           
         },
         onPageDown(){

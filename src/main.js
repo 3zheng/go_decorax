@@ -31,6 +31,31 @@ locale.use(lang)
 Vue.prototype.axios = axios;
 Vue.use(Vuex)
 
+function removeExtraSpaces(str){
+  if (typeof str !== 'string'){
+    //先判断数据类型是不是字符串，不是的话直接返回
+    return str
+  }
+  return str.replace(/\s+/g, ' ');
+}
+
+async function removeArrayExtraSpaces(arr) {
+  if (!Array.isArray(arr)){
+    //先判断是不是数组
+    console.log("arr不是数组")
+    return arr
+  }
+  arr.forEach(item => {    //去除多余空格
+    for (let key in item){ 
+        item[key] = removeExtraSpaces(item[key])
+    }
+  })
+  return arr
+}
+//全局函数，去除多余的空格，只保留一个
+Vue.prototype.$removeExtraSpaces = removeExtraSpaces;
+Vue.prototype.$removeArrayExtraSpaces = removeArrayExtraSpaces;
+
 /*
 router.beforeEach((to,from,next)=>{
   let isLogin = sessionStorage.getItem('isLogin')

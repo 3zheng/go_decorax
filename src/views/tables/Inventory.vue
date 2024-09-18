@@ -160,16 +160,21 @@ export default {
             })
                 .then((repos) => {
                     //console.log(repos.data);
-                    this.totalData = repos.data;
-                    this.searchData = repos.data;    //条件查询数据也是总数据，因为此时没有查询条件
+                    this.totalData = repos.data;   //去两个以上的重复空格
+                    this.searchData = repos.data;  //条件查询数据也是总数据，因为此时没有查询条件
                     this.searchTotal = this.searchData.length;
                     this.changeShowPage();
                     this.progress = 100;
                     this.isGetall = true    //已经获取所有数据
+                    //异步执行去空格函数
+                    (async () => {
+                        this.totalData = await this.$removeArrayExtraSpaces(this.totalData);
+                        console.log('已执行异步去空格函数')
+                    })();
                 })
                 .catch((error) => {
                     //alert('axios错误')
-                    console.log(error);
+                    console.log(`axios error: ${error}`);
                 });
         },
         handleSizeChange(val) {
@@ -191,9 +196,9 @@ export default {
         },
         onSubmit() {
             //alert("提交搜索表单")
-            var fuzzy = this.form.fuzzyQuery.trim()
-            var ID = this.form.ID.trim()
-            var WarehouseName = this.form.WarehouseName.trim()
+            var fuzzy = this.form.fuzzyQuery.trim().toLowerCase()//去空格并转成小写
+            var ID = this.form.ID.trim().toLowerCase()
+            var WarehouseName = this.form.WarehouseName.trim().toLowerCase()
             if (ID != '' || WarehouseName != '') {
                 //alert(`进入精准搜索：ID=${ID},WarehouseName=${WarehouseName}`)
                 //优先精准查询
@@ -208,6 +213,7 @@ export default {
                     obj['WarehouseName'] = WarehouseName;
                     keyArr.push(obj);
                 }
+                //调试打印信息
                 var output = '';
                 for (const [key, value] of Object.entries(obj)) {
                     output = output + `${key}:${value}`;
@@ -220,7 +226,12 @@ export default {
                     //根据输入的查询条件进行逐一比对，如果输入了多项条件就必须同时符合多项条件时才算找到
                     keyArr.forEach(condition => {
                         for (let key in condition) {
-                            if (condition[key] != item[key]) {
+                            //先判断类型是不是string
+                            let value = item[key]
+                            if (typeof value == 'string'){
+                                value = value.trim().toLowerCase()
+                            }
+                            if (condition[key] != value) {
                                 //一假全假，只要有一项不匹配直接跳出循环
                                 isFound = false;
                                 break;
@@ -242,7 +253,11 @@ export default {
                 this.searchData = [];
                 this.totalData.forEach(item => {
                     for (let key in item) {
-                        if (item[key] == fuzzy) {
+                        let value = item[key]
+                        if (typeof value == 'string'){
+                            value = value.trim().toLowerCase()
+                        }
+                        if (value == fuzzy) {
                             this.searchData.push(item);
                             break;
                         }

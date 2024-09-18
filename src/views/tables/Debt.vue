@@ -118,8 +118,8 @@ export default {
             })
                 .then((repos) => {
                     //console.log(repos.data);
-                    this.totalData = repos.data;
-                    this.searchData = repos.data;
+                    this.totalData = this.$removeExtraSpaces(repos.data);   //去两个以上的重复空格
+                    this.searchData = this.$removeExtraSpaces(repos.data);
                     this.searchTotal = this.searchData.length;
                     this.changeShowPage()
                     this.progress = 100;
@@ -147,13 +147,17 @@ export default {
         },
         onSubmit() {
             //alert("提交搜索表单")
-            var fuzzy = this.form.fuzzyQuery.trim()
+            var fuzzy = this.form.fuzzyQuery.trim().toLowerCase()//去空格并转成小写
             if (fuzzy != '') {
                 //模糊查询
                 this.searchData = [];
                 this.totalData.forEach(item => {
                     for (let key in item){
-                        if(item[key] == fuzzy){
+                        let value = item[key]
+                        if (typeof value == 'string'){
+                            value = value.trim().toLowerCase()
+                        }
+                        if (value == fuzzy) {
                             this.searchData.push(item);
                             break;
                         }
