@@ -171,6 +171,7 @@ export default {
                         this.totalData = await this.$removeArrayExtraSpaces(this.totalData);
                         console.log('已执行异步去空格函数')
                     })();
+                    console.log('getAllData over')
                 })
                 .catch((error) => {
                     //alert('axios错误')
